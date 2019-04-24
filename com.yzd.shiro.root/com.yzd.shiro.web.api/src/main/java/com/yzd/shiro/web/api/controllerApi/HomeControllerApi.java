@@ -2,6 +2,7 @@ package com.yzd.shiro.web.api.controllerApi;
 
 import com.yzd.shiro.web.api.model.response.a1base.DataListResult;
 import com.yzd.shiro.web.api.model.response.home.HelloWorld;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/home")
 public class HomeControllerApi {
+    @ApiOperation(value = "helloWorld-接口说明")
     @GetMapping("helloWorld")
     public HelloWorld helloWorld() {
         HelloWorld item = new HelloWorld();
@@ -18,7 +20,7 @@ public class HomeControllerApi {
         log.info(item.toString());
         return item;
     }
-
+    @ApiOperation(value = "helloWorld4String-接口说明")
     @GetMapping("helloWorld4String")
     public String helloWorld4String() {
         String txt = "helloWorld4String=世界";
