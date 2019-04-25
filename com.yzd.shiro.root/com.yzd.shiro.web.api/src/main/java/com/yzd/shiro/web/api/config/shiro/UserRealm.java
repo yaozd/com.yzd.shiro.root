@@ -25,6 +25,7 @@ public class UserRealm extends AuthorizingRealm {
     }
 
     /**
+     *  权限验证（Authorization）-- 权限验证简称authz
      * 只有当需要检测用户权限的时候才会调用此方法，例如checkRole,checkPermission之类的
      */
     @Override
@@ -32,18 +33,21 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         // 添加角色
         simpleAuthorizationInfo.addRole("admin");
-        // 添加权限
+        // 添加权限--超级管理员--访问所有
+        //simpleAuthorizationInfo.addStringPermission("*");
+        // 添加权限--具体权限
         simpleAuthorizationInfo.addStringPermission("user:online");
         return simpleAuthorizationInfo;
     }
 
     /**
+     * 登录认证 （Authentication）-- 登录认证简称authc
      * 默认使用此方法进行用户名正确与否验证，错误抛出异常即可。
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String token = (String) authenticationToken.getCredentials();
-        log.info(token);
+        log.info("token="+token);
         return new SimpleAuthenticationInfo(token, token, "userRealm");
         //throw new AuthenticationException("Token已过期(Token expired or incorrect.)");
     }
