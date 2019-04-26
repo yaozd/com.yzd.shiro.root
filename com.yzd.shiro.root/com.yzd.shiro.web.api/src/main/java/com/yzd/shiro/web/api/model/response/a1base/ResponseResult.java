@@ -29,4 +29,11 @@ public class ResponseResult implements Serializable {
         item.setData(data);
         return item;
     }
+    public static ResponseResult fail(Integer code, String error){
+        ResponseResult item=new ResponseResult();
+        item.setCode(code.toString());
+        item.setMessage("fail");
+        item.setData(error);
+        return item;
+    }
 }

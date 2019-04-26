@@ -25,6 +25,8 @@ public class UserControllerApi {
     public String view(){
         return "user:view";
     }
+
+    @ApiOperation(value = "create-测试无权访问权限")
     @GetMapping("create")
     @RequiresPermissions("user:create")
     public String create(){
