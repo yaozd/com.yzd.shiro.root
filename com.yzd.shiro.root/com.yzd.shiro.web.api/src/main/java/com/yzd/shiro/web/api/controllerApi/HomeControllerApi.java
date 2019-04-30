@@ -1,6 +1,6 @@
 package com.yzd.shiro.web.api.controllerApi;
 
-import com.yzd.shiro.web.api.model.response.a1base.DataListResult;
+import com.yzd.shiro.web.api.model.response.a1base.PageDataResult;
 import com.yzd.shiro.web.api.model.response.home.HelloWorld;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,7 @@ public class HomeControllerApi {
         log.info(item.toString());
         return item;
     }
+
     @ApiOperation(value = "helloWorld4String-接口说明")
     @GetMapping("helloWorld4String")
     public String helloWorld4String() {
@@ -37,8 +38,8 @@ public class HomeControllerApi {
 
 
     @GetMapping("helloWorld4DataList")
-    public DataListResult<HelloWorld> helloWorld4DataList() {
-        DataListResult<HelloWorld> itemList = new DataListResult<>();
+    public PageDataResult<HelloWorld> helloWorld4DataList() {
+        PageDataResult<HelloWorld> itemList = new PageDataResult<>();
         itemList.setTotal(1);
         HelloWorld item = new HelloWorld();
         item.setName("YZD-WORLD");
@@ -52,6 +53,7 @@ public class HomeControllerApi {
         log.info(txt);
         return null;
     }
+
     @GetMapping("helloWorld4Void")
     public void helloWorld4Void() {
         String txt = "helloWorld4Void";

@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-public class DataListResult<T> implements Serializable {
+public class PageDataResult<T> implements Serializable {
     private List<T> dataList=new ArrayList<>();
     private Integer total;
 }
