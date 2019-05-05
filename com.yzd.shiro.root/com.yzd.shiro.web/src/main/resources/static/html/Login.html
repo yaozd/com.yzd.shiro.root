@@ -9,6 +9,7 @@
     <script src="/js/jquery-2.1.1.min.js"></script>
     <script src="/layui/layui.js"></script>
     <script src="/js/axios.min.js"></script>
+    <script src="/js/jquery.extend.js"></script>
     <script src="/js/axios.extend.js"></script>
 
 </head>
@@ -16,14 +17,14 @@
 
 <div class="login-main">
     <header class="layui-elip">登录</header>
-    <form class="layui-form">
+    <form class="layui-form" id="form4login">
         <div class="layui-input-inline">
-            <input type="text" name="account" required lay-verify="required" placeholder="用户名" autocomplete="off"
-                   class="layui-input">
+            <input type="text" name="name" required lay-verify="required" placeholder="用户名" autocomplete="off"
+                   class="layui-input" value="15012345678">
         </div>
         <div class="layui-input-inline">
             <input type="password" name="password" required lay-verify="required" placeholder="密码" autocomplete="off"
-                   class="layui-input">
+                   class="layui-input" value="123456">
         </div>
         <div class="layui-input-inline login-btn">
             <button lay-submit lay-filter="login" class="layui-btn">登录</button>
@@ -49,9 +50,21 @@
         })
     });
     function login(){
-        instance.post('/user/login',$("#useLogin").serialize())
+        //
+        console.log($("#form4login").serialize());
+        //
+        console.log($("#form4login").serializeJson());
+        instance.post('/api/account/login',$("#form4login").serializeJson())
             .then(function (response) {
                 console.log(response);
+                var result=response.data;
+                if(result.code==200){
+                    alert(result.data);
+                    return;
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
             });
 /*        $.post("/user/login",$("#useLogin").serialize(),function(data){
             console.log("data:"+data)

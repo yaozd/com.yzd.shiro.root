@@ -16,20 +16,22 @@ public class UserControllerApi {
     @ApiOperation(value = "online-测试权限验证")
     @GetMapping("online")
     @RequiresPermissions("user:online")
-    public String online(){
+    public String online() {
         return "user:online";
     }
+
     @ApiOperation(value = "view-测试登录认证")
     @GetMapping("view")
     @RequiresAuthentication //登录权限
-    public String view(){
+    public String view() {
         return "user:view";
     }
 
     @ApiOperation(value = "create-测试无权访问权限")
     @GetMapping("create")
     @RequiresPermissions("user:create")
-    public String create(){
+    public String create() {
         return "user:create";
     }
+
 }

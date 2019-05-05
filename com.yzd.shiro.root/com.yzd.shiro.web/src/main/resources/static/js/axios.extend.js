@@ -1,17 +1,23 @@
 var instance = axios.create({
-    baseURL: 'http://localhost:9091'
+    baseURL: 'http://localhost:9090'
 });
 instance.interceptors.response.use(function(res){
     if(res.headers.token){
         localStorage.setItem('token',res.headers.token);
     }
+    //return res.data; 直接返回响应结果{code:"200"},默认status为200;
+    //return res; 返回完整的http信息
+    //return res.data;
     return res;
 },function(err){
-    console.log(err);
+    //console.log(err);
     if (err && err.response){
         hanlder4ErrorStatus4Axios(err,err.response.status);
     }
-    return err;
+    //return Promise.reject(err) :结果由catch捕获
+    //return err ;结果由then捕获
+    return Promise.reject(err);
+    //return err;
 });
 function hanlder4ErrorStatus4Axios(err,status) {
     switch (status) {
@@ -25,7 +31,8 @@ function hanlder4ErrorStatus4Axios(err,status) {
             err.message = '拒绝访问';
             break;
         case 404:
-            err.message = '请求地址出错404';
+            var url=err.response.config.url;
+            err.message = '请求地址没有找到,PATH='+url;
             break;
         case 408:
             err.message = '请求超时';
