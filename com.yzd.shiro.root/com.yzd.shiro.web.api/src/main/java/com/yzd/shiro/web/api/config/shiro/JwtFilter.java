@@ -31,6 +31,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) {
         // 拿到当前Header中Authorization的AccessToken(Shiro中getAuthzHeader方法已经实现)
+        //JwtToken token = new JwtToken(this.getAuthzHeader(request));
         JwtToken token = new JwtToken("xxx");
         // 提交给UserRealm进行认证，如果错误他会抛出异常并被捕获
         this.getSubject(request, response).login(token);

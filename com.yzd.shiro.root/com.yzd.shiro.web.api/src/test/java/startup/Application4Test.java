@@ -8,11 +8,11 @@ import org.springframework.context.annotation.ComponentScan;
 
 @Slf4j
 @SpringBootApplication
-@ComponentScan({"com.yzd.shiro.web.api","com.yzd.shiro.db","com.yzd.shiro.service"})
+@ComponentScan({"com.yzd.shiro.db","com.yzd.shiro.service"})
 @MapperScan("com.yzd.shiro.db.dao.mapper")
-public class Application4WebApi {
+public class Application4Test {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application4WebApi.class, args);
+        SpringApplication.run(Application4Test.class, args);
     }
 }
