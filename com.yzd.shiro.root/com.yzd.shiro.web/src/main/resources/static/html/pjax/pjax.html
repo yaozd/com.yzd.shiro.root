@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
+    <title>Document</title>
+    <style>
+        html, body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<header style="background-color: green; height: 50px; width: 100%;"></header>
+<section>
+    <nav style="float: left; width: 30%;background-color: bisque;">
+        <ul>
+            <li><a href="/">index</a></li>
+            <li><a href="/html/pjax/fragment.html" data-pjax>fragment (pjax)</a></li>
+        </ul>
+    </nav>
+    <div id="pjax-container" style="float: right; width: 70%; background-color: aliceblue;">
+        内容主体区域
+    </div>
+</section>
+<footer style="clear: both;background-color: black; height: 50px; width: 100%;color: #fff; line-height: 50px;"></footer>
+<script>
+    $(document).pjax('[data-pjax] a, a[data-pjax]', '#pjax-container');
+    var date = new Date();
+    $("footer").html(
+        date.getFullYear() + "-"
+        + (date.getMonth() + 1)
+        + "-" + date.getDay()
+        + " " + date.getHours()
+        + ":" + date.getMinutes()
+        + ":" + date.getSeconds()
+        + ":" + date.getMilliseconds()
+    );
+</script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 ### 1.测试导航
 - [http://localhost:9091/html/Login.html](http://localhost:9091/html/Login.html)
 - [http://localhost:9091/html/admin.html](http://localhost:9091/html/admin.html)
+- [http://localhost:9091/html/pjax/pjax.html](http://localhost:9091/html/pjax/pjax.html)-pjax实现页面无刷新渲染
 
 ### 2.Layui-参考：
 － [layui-简单的登录注册界面](https://www.cnblogs.com/davis16/p/8697808.html)
@@ -25,4 +26,19 @@
 - [单页面应用的页面跳转及如何通过url跳转至指定页面](https://blog.csdn.net/w405722907/article/details/82255249)
 - [Pjax是什么以及为什么推荐大家用](https://my.oschina.net/sub/blog/123447)
 - [jQuery+pjax简单示例汇总](https://www.cnblogs.com/telwanggs/p/7136694.html)
-- []()
+- [pjax使用小结](https://www.jianshu.com/p/557cad38e7dd)
+- [https://github.com/defunkt/jquery-pjax](https://github.com/defunkt/jquery-pjax)
+- [pjax失效情况](https://www.jianshu.com/p/557cad38e7dd)
+```
+除了上述情况之外，还有下列几种情况：
+ajax 请求失败，或者 timeout 后请求被中止
+当前页面的 X-PJAX-Version 和请求的新页面版本不一致
+请求得到完整的页面（包含 html 标签）却没设置 fragment 参数
+
+-----
+点击这里查看pushState的浏览器支持情况。
+https://caniuse.com/#search=pushstate
+```
+
+### 6.pjax示例
+- [spring-boot项目freemarker模板使用jquery.pjax实现页面无刷新渲染](https://www.codercto.com/a/22195.html)
