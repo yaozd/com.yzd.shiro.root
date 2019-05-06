@@ -5,6 +5,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = Application4Test.class,webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(classes = ApplicationUnitTest.class,webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class BaseUnitTest {
 }

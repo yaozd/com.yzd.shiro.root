@@ -1,5 +1,7 @@
 package com.yzd.shiro.web.api.config.exception;
 
+import com.yzd.shiro.web.api.common.exceptionExt.CustomException;
+import com.yzd.shiro.web.api.common.exceptionExt.ExceptionEnum;
 import com.yzd.shiro.web.api.model.response.a1base.ResponseResult;
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.authz.UnauthenticatedException;
@@ -85,4 +87,17 @@ public class ExceptionAdviceConfig {
         }
         return HttpStatus.valueOf(statusCode);
     }
+
+    /**
+     * 自定义异常
+     * 因为自定义异常需要做业务逻辑处理，所以使用HttpStatus.OK
+     * @param ex
+     * @return
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(CustomException.class)
+    public ResponseResult handleCustomException(Throwable ex) {
+        return ResponseResult.fail(ExceptionEnum.CUSTOM_ERROR.CODE, ex.getMessage());
+    }
+
 }

@@ -2,6 +2,7 @@ package com.yzd.shiro.web.api.controllerApi;
 
 import com.yzd.shiro.db.entity.table.TbUser;
 import com.yzd.shiro.service.inf.IUserServiceInf;
+import com.yzd.shiro.web.api.common.exceptionExt.CustomException;
 import com.yzd.shiro.web.api.config.shiro.JwtToken;
 import com.yzd.shiro.web.api.model.request.account.LoginForm;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +32,7 @@ public class AccountControllerApi {
         TbUser where=LoginForm.toEntity(form);
         TbUser item= userServiceInf.selectOne(where,null);
         if(item==null){
-            return "account:login-false";
+           throw new CustomException("用户名或密码不正确");
         }
         //设置TOKEN
         String token=form.getName();
