@@ -16,7 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        this.executeLogin(request, response);
+        //检测Header里面是否包含Authorization字段，有就进行Token登录认证授权
+        //如果不包含Authorization信息，则是按照匿名用户身份访问
+        if(this.isLoginAttempt(request,response)){
+            this.executeLogin(request, response);
+            return true;
+        }
         return true;
     }
 
@@ -31,8 +36,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) {
         // 拿到当前Header中Authorization的AccessToken(Shiro中getAuthzHeader方法已经实现)
-        //JwtToken token = new JwtToken(this.getAuthzHeader(request));
-        JwtToken token = new JwtToken("xxx");
+        JwtToken token = new JwtToken(this.getAuthzHeader(request));
+        //JwtToken token = new JwtToken("xxx");
         // 提交给UserRealm进行认证，如果错误他会抛出异常并被捕获
         this.getSubject(request, response).login(token);
         // 如果没有抛出异常则代表登入成功，返回true
@@ -54,6 +59,16 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             return false;
         }
         return super.preHandle(request, response);
+    }
+    /**
+     * 检测Header里面是否包含Authorization字段，有就进行Token登录认证授权
+     * 如果不包含Authorization信息，则是按照匿名用户身份访问
+     */
+    @Override
+    protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
+        // 拿到当前Header中Authorization的AccessToken(Shiro中getAuthzHeader方法已经实现)
+        String token = this.getAuthzHeader(request);
+        return token != null;
     }
 
 }
