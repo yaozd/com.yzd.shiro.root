@@ -21,6 +21,7 @@
         <ul>
             <li><a href="/">index</a></li>
             <li><a href="/html/pjax/fragment.html" data-pjax>fragment (pjax)</a></li>
+            <li><a href="/html/pjax/fragment2.html" data-pjax>fragment2 (pjax)</a></li>
         </ul>
     </nav>
     <div id="pjax-container" style="float: right; width: 70%; background-color: aliceblue;">
@@ -40,6 +41,11 @@
         + ":" + date.getSeconds()
         + ":" + date.getMilliseconds()
     );
+</script>
+<script>
+    //pjax加载初始地址
+    var urlPath="/html/pjax/pjax.html";
+    $.pjax({url: '/html/pjax/pjax.html',container: '#pjax-container'});
 </script>
 </body>
 </html>

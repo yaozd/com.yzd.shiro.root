@@ -1,3 +1,11 @@
+<script>
+    //判断当前是否在pjax.html页面下
+    if (typeof($) == "undefined") {
+        /*逻辑*/
+        alert(1);
+        window.location.href="/html/pjax/pjax.html";
+    } else{alert(2)};
+</script>
 <div>
     <h6>pjax测试</h6>
     <p>pjax-fragment</p>
