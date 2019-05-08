@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>layout 后台大布局 - Layui</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <script src="/layui/layui.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/jquery.extend.js"></script>
+    <script src="/js/axios.extend.js"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -68,7 +73,8 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <div style="padding: 15px;">内容主体区域</div>
+        <div style="padding: 15px;">内容主体区域 <h2><button id="btn">测试权限与token</button></h2></div>
+
     </div>
 
     <div class="layui-footer">
@@ -85,5 +91,27 @@
 
     });
 </script>
+<script>
+    $(function(){
+        alert(1);
+        instance.get("/api/user/view") .then(function (response) {
+            console.log(response);
+            var result=response.data;
+            alert(result);
+        });
+    });
+</script>
+<script type="text/javascript">
+    var btn = document.getElementById("btn");
+    btn.onclick=function(){
+        alert("hello world");
+        instance.get("/api/user/view") .then(function (response) {
+            console.log(response);
+            var result=response.data.data;
+            alert(result);
+        });
+    }
+</script>
+
 </body>
 </html>

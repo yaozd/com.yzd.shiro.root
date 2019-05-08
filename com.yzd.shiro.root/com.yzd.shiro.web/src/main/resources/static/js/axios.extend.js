@@ -1,15 +1,43 @@
+var AUTH_TOKEN=(function(){
+    return localStorage.getItem("token");
+})();
 var instance = axios.create({
     baseURL: 'http://localhost:9090'
 });
+instance.defaults.headers.common["Authorization"] = AUTH_TOKEN;
+instance.interceptors.request.use(function(config){
+    var url = config.url;
+    if(url.indexOf("/api/account/login")>-1){
+        //localStorage.setItem('token',"");
+        config.headers.Authorization = "";
+        return config;
+    }
+    var token=localStorage.getItem("token");
+    if(token==null){
+        token="";
+    }
+    config.headers.Authorization =token;
+    return config;
+},function(err){
+    alert(err);
+    return Promise.reject(err);
+});
 instance.interceptors.response.use(function(res){
-    if(res.headers.token){
-        localStorage.setItem('token',res.headers.token);
+
+    //authorization必须是小写
+    if(res.headers.authorization&&res.headers.authorization!=""){
+        localStorage.setItem('token',res.headers.authorization);
     }
     //return res.data; 直接返回响应结果{code:"200"},默认status为200;
     //return res; 返回完整的http信息
     //return res.data;
     return res;
 },function(err){
+    //使用场景：如断网情况
+    if (typeof(err.response) == "undefined"){
+        alert("当前请求没有响应，错误信息："+err);
+        return Promise.reject(err);
+    }
     //console.log(err);
     if (err && err.response){
         hanlder4ErrorStatus4Axios(err,err.response.status);
