@@ -42,3 +42,8 @@ https://caniuse.com/#search=pushstate
 
 ### 6.pjax示例
 - [spring-boot项目freemarker模板使用jquery.pjax实现页面无刷新渲染](https://www.codercto.com/a/22195.html)
+- 通过referrer与cookie实现自动跳转
+    - [javascript操作referer方法探讨](http://www.jquerycn.cn/a_11559)
+    - [jquery之cookie操作](https://www.cnblogs.com/s313139232/p/7839037.html)
+- []()
+- []()
