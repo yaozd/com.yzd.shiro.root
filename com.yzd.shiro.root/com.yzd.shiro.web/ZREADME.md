@@ -1,13 +1,18 @@
-### 1.测试导航
+### 1.测试导航-Html测试练习
 - [http://localhost:9091/html/Login.html](http://localhost:9091/html/Login.html)
 - [http://localhost:9091/html/admin.html](http://localhost:9091/html/admin.html)
 - [http://localhost:9091/html/pjax/pjax.html](http://localhost:9091/html/pjax/pjax.html)-pjax实现页面无刷新渲染
+
+### 2.测试导航-Admin
+- [http://localhost:9091/admin/admin.html](http://localhost:9091/admin/admin.html)
+- [http://localhost:9091/admin/home.html](http://localhost:9091/admin/home.html)
 
 ### 2.Layui-参考：
 － [layui-简单的登录注册界面](https://www.cnblogs.com/davis16/p/8697808.html)
 - [layuiAdmin 后台管理模板](https://www.layui.com/admin/)
     - [单页版](https://www.layui.com/admin/pro/)
     - [iframe版](https://www.layui.com/admin/std/dist/views/)
+- [admin开发调试-页面](https://www.layui.com/demo/admin.html)
 - []()
 
 ### 3.Thymeleaf-参考：

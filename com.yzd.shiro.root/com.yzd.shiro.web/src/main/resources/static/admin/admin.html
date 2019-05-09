@@ -8,6 +8,8 @@
     <script src="/js/jquery-2.1.1.min.js"></script>
     <script src="/layui/layui.js"></script>
     <script src="/js/axios.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/jquery.pjax.js"></script>
     <script src="/js/jquery.extend.js"></script>
     <script src="/js/axios.extend.js"></script>
 </head>
@@ -48,7 +50,10 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">所有商品</a>
+                    <a href="/admin/home.html" data-pjax>首页</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">所有商品</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">列表一</a></dd>
                         <dd><a href="javascript:;">列表二</a></dd>
@@ -70,10 +75,8 @@
         </div>
     </div>
 
-    <div class="layui-body">
+    <div class="layui-body" id="pjax-container">
         <!-- 内容主体区域 -->
-        <div style="padding: 15px;">内容主体区域 <h2><button id="btn">测试权限与token</button></h2></div>
-
     </div>
 
     <div class="layui-footer">
@@ -89,31 +92,7 @@
     });
 </script>
 <script>
-    $(function(){
-        alert(1);
-        instance.get("/api/user/view") .then(function (response) {
-            console.log(response);
-            var result=response.data;
-            var resultStr=JSON.stringify(result);
-            console.log("resultStr="+resultStr);
-            alert(resultStr);
-        });
-    });
-</script>
-<script type="text/javascript">
-    var btn = document.getElementById("btn");
-    btn.onclick=function(){
-        alert("hello world");
-        instance.get("/api/user/view") .then(function (response) {
-            console.log(response);
-            var result=response.data.data;
-            var resultStr=JSON.stringify(result);
-            console.log("resultStr="+resultStr);
-            alert(resultStr);
-        });
-    }
-</script>
-<script>
+    $(document).pjax('[data-pjax] a, a[data-pjax]', '#pjax-container');
     $('body').on('click', '#btn4Logout', function() {
         alert("logout");
         localStorage.removeItem("token");
