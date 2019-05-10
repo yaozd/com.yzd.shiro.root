@@ -43,3 +43,20 @@ CREATE TABLE `tb_user` (
 -- Records of tb_user
 -- ----------------------------
 INSERT INTO `tb_user` VALUES ('32', 'yzd', '15012345678', '', '123456', '0', '2019-05-05 03:49:51', '2019-05-05 03:49:51', '0', '1', '', '2019-05-05 03:49:51', '0');
+-- ----------------------------
+-- Table structure for tb_permission
+-- ----------------------------
+CREATE TABLE `tb_permission` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name` varchar(128) NOT NULL COMMENT '资源名称',
+  `permission_code` varchar(128) NOT NULL COMMENT '权限标识代码',
+  `sort_no` int(4) NOT NULL DEFAULT '0' COMMENT '排序',
+  `visible_status` int(4) NOT NULL DEFAULT '0' COMMENT '是否可见:1=可见、2=隐藏',
+  `enable_status` int(4) NOT NULL DEFAULT '0' COMMENT '是否启用：1=启用、2=停止启用',
+  `permission_type` int(4) NOT NULL DEFAULT '0' COMMENT '资源类型：1=目录、2=菜单、3=功能、4=按钮',
+  `url` varchar(500) DEFAULT '#' COMMENT '请求地址',
+  `parent_id` bigint(20) DEFAULT '0' COMMENT '父类ID',
+  `remark` varchar(1000) DEFAULT '' COMMENT '备注说明',
+  `gmt_is_del` int(4) DEFAULT '0' COMMENT '是否删除：0=正常、1=已删',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='资源表';

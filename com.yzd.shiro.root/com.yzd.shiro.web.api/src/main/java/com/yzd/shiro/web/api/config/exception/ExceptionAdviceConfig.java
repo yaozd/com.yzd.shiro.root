@@ -3,6 +3,7 @@ package com.yzd.shiro.web.api.config.exception;
 import com.yzd.shiro.web.api.common.exceptionExt.CustomException;
 import com.yzd.shiro.web.api.common.exceptionExt.ExceptionEnum;
 import com.yzd.shiro.web.api.model.response.a1base.ResponseResult;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Wang926454
  * @date 2018/8/30 14:02
  */
+@Slf4j
 @RestControllerAdvice
 public class ExceptionAdviceConfig {
     /**
@@ -72,6 +74,7 @@ public class ExceptionAdviceConfig {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ResponseResult globalException(HttpServletRequest request, Throwable ex) {
+        log.error("内部未知异常",ex);
         return ResponseResult.fail(this.getStatus(request).value(), ex.toString() + ": " + ex.getMessage());
     }
 

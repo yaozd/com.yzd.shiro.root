@@ -7,6 +7,11 @@
 - [http://localhost:9091/admin/admin.html](http://localhost:9091/admin/admin.html)
 - [http://localhost:9091/admin/home.html](http://localhost:9091/admin/home.html)
 
+### 2.Layui前端布局参考
+-  manage-使用springboot+mybatis+layui+shiro+thymeleaf开发的后台权限管理系统（使用springboot+mybatis+layui+shiro+thymeleaf）
+    - [https://gitee.com/wyait/manage](https://gitee.com/wyait/manage)
+    - manage-2019-05-09-1530-[独立运行版-后台权限管理系统].rar-下载百度云=>软件开发-JAVA=>J-H-后台管理系统
+
 ### 2.Layui-参考：
 － [layui-简单的登录注册界面](https://www.cnblogs.com/davis16/p/8697808.html)
 - [layuiAdmin 后台管理模板](https://www.layui.com/admin/)

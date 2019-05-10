@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzd.shiro.db.dao.mapper.TbPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.yzd.shiro.db.entity.table.TbPermission">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="permission_code" jdbcType="VARCHAR" property="permissionCode" />
+    <result column="sort_no" jdbcType="INTEGER" property="sortNo" />
+    <result column="visible_status" jdbcType="INTEGER" property="visibleStatus" />
+    <result column="enable_status" jdbcType="INTEGER" property="enableStatus" />
+    <result column="permission_type" jdbcType="INTEGER" property="permissionType" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="gmt_is_del" jdbcType="INTEGER" property="gmtIsDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, permission_code, sort_no, visible_status, enable_status, permission_type, 
+    url, parent_id, remark, gmt_is_del
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_permission
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <insert id="insertSelective" parameterType="com.yzd.shiro.db.entity.table.TbPermission">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="permissionCode != null">
+        permission_code,
+      </if>
+      <if test="sortNo != null">
+        sort_no,
+      </if>
+      <if test="visibleStatus != null">
+        visible_status,
+      </if>
+      <if test="enableStatus != null">
+        enable_status,
+      </if>
+      <if test="permissionType != null">
+        permission_type,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="gmtIsDel != null">
+        gmt_is_del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionCode != null">
+        #{permissionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null">
+        #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="visibleStatus != null">
+        #{visibleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="enableStatus != null">
+        #{enableStatus,jdbcType=INTEGER},
+      </if>
+      <if test="permissionType != null">
+        #{permissionType,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtIsDel != null">
+        #{gmtIsDel,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzd.shiro.db.entity.table.TbPermission">
+    update tb_permission
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionCode != null">
+        permission_code = #{permissionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null">
+        sort_no = #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="visibleStatus != null">
+        visible_status = #{visibleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="enableStatus != null">
+        enable_status = #{enableStatus,jdbcType=INTEGER},
+      </if>
+      <if test="permissionType != null">
+        permission_type = #{permissionType,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtIsDel != null">
+        gmt_is_del = #{gmtIsDel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!--自定义脚本////////////////////////////////////////////////////////////////////////////////////////////////-->
+  <sql id="Query_Where_Clause" >
+    <if test="pojo != null" >
+      <if test="pojo.id != null"> AND id = #{pojo.id} </if>
+      <if test="pojo.name != null"> AND name = #{pojo.name} </if>
+      <if test="pojo.permissionCode != null"> AND permission_code = #{pojo.permissionCode} </if>
+      <if test="pojo.sortNo != null"> AND sort_no = #{pojo.sortNo} </if>
+      <if test="pojo.visibleStatus != null"> AND visible_status = #{pojo.visibleStatus} </if>
+      <if test="pojo.enableStatus != null"> AND enable_status = #{pojo.enableStatus} </if>
+      <if test="pojo.permissionType != null"> AND permission_type = #{pojo.permissionType} </if>
+      <if test="pojo.url != null"> AND url = #{pojo.url} </if>
+      <if test="pojo.parentId != null"> AND parent_id = #{pojo.parentId} </if>
+      <if test="pojo.remark != null"> AND remark = #{pojo.remark} </if>
+      <if test="pojo.gmtIsDel != null"> AND gmt_is_del = #{pojo.gmtIsDel} </if>
+    </if>
+  </sql>
+  <sql id="Query_Where_ClauseForPageWhere">
+    <if test="pageWhere != null">limit #{pageWhere.begin},#{pageWhere.size}</if>
+  </sql>
+  <sql id="Query_Where_ClauseForPojo" >
+    <where>
+      <include refid="Query_Where_Clause" />
+    </where>
+  </sql>
+  <sql id="Query_Where_ClauseForExtendWhere" >
+    <where>
+      <include refid="Query_Where_Clause" />
+      <if test="extendWhere != null" >
+
+      </if>
+    </where>
+  </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM tb_permission
+    <include refid="Query_Where_ClauseForExtendWhere" />
+    ORDER BY id
+    <include refid="Query_Where_ClauseForPageWhere" />
+  </select>
+</mapper>
