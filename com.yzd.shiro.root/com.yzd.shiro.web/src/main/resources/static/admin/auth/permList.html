@@ -1,0 +1,280 @@
+<script src="/admin/jquery.pjax.extend.js"></script>
+<!--//自定义html-->
+<link rel="stylesheet" href="/treegrid/css/grid.css">
+<div>
+    <div class="demoTable">
+        &nbsp;&nbsp;<button class="layui-btn" onclick="addPermFun(0)">开通权限</button>
+    </div>
+
+    <div id="permTable" class="grid" style="top: 43px;">
+        <div class="grid-content">
+            <div class="grid-head">
+                <table class="layui-table" style="width: 1652px;">
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="grid-coll" style="width: 299px;">权限名称</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll" style="width: 165px;">权限分类</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll" style="width: 466px;">权限路径</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll" style="width: 233px;">权限code</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll" style="width: 134px;">优先级</div>
+                        </th>
+                        <th style="width:140px;">
+                            <div class="grid-coll" style="width: 168px;">操作</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="grid-body" style="top: 40px; bottom: 0px;">
+                <table class="layui-table" style="margin-top: -38px;">
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="grid-coll">权限名称</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll">权限分类</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll">权限路径</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll">权限code</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll">优先级</div>
+                        </th>
+                        <th style="width:140px;">
+                            <div class="grid-coll">操作</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="treegrid-1 treegrid-expanded">
+                        <td><span class="treegrid-expander"></span>系统管理</td>
+                        <td>菜单</td>
+                        <td>/</td>
+                        <td>system</td>
+                        <td>100</td>
+                        <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('1',0);">编辑</a> <a
+                                class="layui-btn layui-btn-xs" onclick="addPerm('1',1)">添加子节点</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('1','系统管理')">删除</a></td>
+                    </tr>
+                    <tr class="treegrid-2 treegrid-parent-1">
+                        <td><span class="treegrid-indent"></span><span class="treegrid-indent"></span>用户管理</td>
+                        <td>菜单</td>
+                        <td>/user/userList</td>
+                        <td>usermanage</td>
+                        <td>1100</td>
+                        <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('2',0);">编辑</a> <a
+                                class="layui-btn layui-btn-xs" onclick="addPerm('2',1)">添加子节点</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('2','用户管理')">删除</a></td>
+                    </tr>
+                    <tr class="treegrid-3 treegrid-parent-1">
+                        <td><span class="treegrid-indent"></span><span class="treegrid-indent"></span>角色管理</td>
+                        <td>菜单</td>
+                        <td>/auth/roleManage</td>
+                        <td>rolemanage</td>
+                        <td>1200</td>
+                        <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('3',0);">编辑</a> <a
+                                class="layui-btn layui-btn-xs" onclick="addPerm('3',1)">添加子节点</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('3','角色管理')">删除</a></td>
+                    </tr>
+                    <tr class="treegrid-4 treegrid-parent-1">
+                        <td><span class="treegrid-indent"></span><span class="treegrid-indent"></span>权限管理</td>
+                        <td>菜单</td>
+                        <td>/auth/permList</td>
+                        <td>permmanage</td>
+                        <td>1300</td>
+                        <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('4',0);">编辑</a> <a
+                                class="layui-btn layui-btn-xs" onclick="addPerm('4',1)">添加子节点</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('4','权限管理')">删除</a></td>
+                    </tr>
+                    <tr class="treegrid-5 treegrid-expanded">
+                        <td><span class="treegrid-expander"></span>商品管理</td>
+                        <td>菜单</td>
+                        <td>/</td>
+                        <td>shops</td>
+                        <td>300</td>
+                        <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('5',0);">编辑</a> <a
+                                class="layui-btn layui-btn-xs" onclick="addPerm('5',1)">添加子节点</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('5','商品管理')">删除</a></td>
+                    </tr>
+                    <tr class="treegrid-13 treegrid-parent-5">
+                        <td><span class="treegrid-indent"></span><span class="treegrid-indent"></span>商品列表</td>
+                        <td>菜单</td>
+                        <td>/shop/shopPage</td>
+                        <td>shopPage</td>
+                        <td>3100</td>
+                        <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('13',0);">编辑</a> <a
+                                class="layui-btn layui-btn-xs" onclick="addPerm('13',1)">添加子节点</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('13','商品列表')">删除</a></td>
+                    </tr>
+                    <tr class="treegrid-6 treegrid-expanded">
+                        <td><span class="treegrid-expander"></span>渠道管理</td>
+                        <td>菜单</td>
+                        <td>/</td>
+                        <td>channel</td>
+                        <td>200</td>
+                        <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('6',0);">编辑</a> <a
+                                class="layui-btn layui-btn-xs" onclick="addPerm('6',1)">添加子节点</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('6','渠道管理')">删除</a></td>
+                    </tr>
+                    <tr class="treegrid-10 treegrid-parent-6">
+                        <td><span class="treegrid-indent"></span><span class="treegrid-indent"></span>渠道信息列表</td>
+                        <td>菜单</td>
+                        <td>/channel/channelListPage</td>
+                        <td>channelPage</td>
+                        <td>2200</td>
+                        <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('10',0);">编辑</a> <a
+                                class="layui-btn layui-btn-xs" onclick="addPerm('10',1)">添加子节点</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('10','渠道信息列表')">删除</a></td>
+                    </tr>
+                    <tr class="treegrid-11 treegrid-parent-6">
+                        <td><span class="treegrid-indent"></span><span class="treegrid-indent"></span>渠道会员列表</td>
+                        <td>菜单</td>
+                        <td>/channel/channelUserListPage</td>
+                        <td>channelUsers</td>
+                        <td>2300</td>
+                        <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('11',0);">编辑</a> <a
+                                class="layui-btn layui-btn-xs" onclick="addPerm('11',1)">添加子节点</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('11','渠道会员列表')">删除</a></td>
+                    </tr>
+                    <tr class="treegrid-8 treegrid-expanded">
+                        <td><span class="treegrid-expander"></span>订单管理</td>
+                        <td>菜单</td>
+                        <td>/</td>
+                        <td>orders</td>
+                        <td>400</td>
+                        <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('8',0);">编辑</a> <a
+                                class="layui-btn layui-btn-xs" onclick="addPerm('8',1)">添加子节点</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('8','订单管理')">删除</a></td>
+                    </tr>
+                    <tr class="treegrid-14 treegrid-parent-8">
+                        <td><span class="treegrid-indent"></span><span class="treegrid-indent"></span>商品订单列表</td>
+                        <td>菜单</td>
+                        <td>/order/orderPage</td>
+                        <td>orderPage</td>
+                        <td>4100</td>
+                        <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('14',0);">编辑</a> <a
+                                class="layui-btn layui-btn-xs" onclick="addPerm('14',1)">添加子节点</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('14','商品订单列表')">删除</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script id="view" type="text/html">
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>权限名称</th>
+                <th>权限分类</th>
+                <th>权限路径</th>
+                <th>权限code</th>
+                <th>优先级</th>
+                <th style="width:140px;">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{# layui.each(d.rows,function(index,r){ }}
+            <tr>
+                <td>{{r.name}}</td>
+                <td>{{r.istype==0?'菜单':'功能'}}</td>
+                <td>{{r.page}}</td>
+                <td>{{r.code}}</td>
+                <td>{{r.zindex}}</td>
+                <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('{{r.id}}',0);">编辑</a>
+                    <a class="layui-btn layui-btn-xs" onclick="addPerm('{{r.id}}',1)">添加子节点</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('{{r.id}}','{{r.name}}')">删除</a>
+                </td>
+            </tr>
+            {{# }); }}
+            </tbody>
+        </table>
+    </script>
+</div>
+<!--添加或编辑权限-->
+<div id="updatePerm" class="layer_self_wrap" style="width:500px;display:none;">
+    <form id="form4Perm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+        <!--记录ID-->
+        <input id="id" type="hidden" name="id"/>
+        <!--父类ID-->
+        <input id="parentId" type="hidden" name="parentId"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">资源名称</label>
+            <div class="layui-input-inline">
+                <input name="name" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+        <div class="layui-form-item" pane="">
+            <label class="layui-form-label">资源类型</label>
+            <div class="layui-input-block">
+                <input name="permissionType" value="1" title="目录" checked="" type="radio"/>
+                <input name="permissionType" value="2" title="菜单" type="radio"/>
+                <input name="permissionType" value="3" title="功能" type="radio"/>
+                <input name="permissionType" value="4" title="按钮" type="radio"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">请求地址</label>
+            <div class="layui-input-inline">
+                <input name="url" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限标识</label>
+            <div class="layui-input-inline">
+                <input name="permissionCode" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-inline">
+                <input name="sortNo" autocomplete="off" lay-verify="required" class="layui-input" type="text"
+                       onkeyup="this.value=this.value.replace(/\D/g,'')"
+                       onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+            </div>
+            <div class="layui-form-mid layui-word-aux">请填写大于0的整数数字</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否可见</label>
+            <div class="layui-input-block">
+                <input name="visibleStatus" value="1" title="可见" checked="" type="radio"/>
+                <input name="visibleStatus" value="2" title="隐藏" type="radio"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否启用</label>
+            <div class="layui-input-block">
+                <input name="enableStatus" value="1" title="启用" checked="" type="radio"/>
+                <input name="enableStatus" value="2" title="停用" type="radio"/>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注说明</label>
+            <div class="layui-input-block">
+                <textarea name="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left: 10px;">
+                <button class="layui-btn"  lay-submit="" lay-filter="submit4Perm">提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!--//自定义javascript-->
+<script src="/script/auth/permList.js"></script>

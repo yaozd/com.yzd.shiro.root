@@ -14,6 +14,13 @@
     - [iframe版](https://www.layui.com/admin/std/dist/views/)
 - [admin开发调试-页面](https://www.layui.com/demo/admin.html)
 - []()
+### 2.1.Layui-问题处理参考
+- [layer弹层遮罩挡住窗体解决](https://blog.csdn.net/q646926099/article/details/78797091)
+- [重置表单的三种方法](https://blog.csdn.net/qq_27596179/article/details/80883201)
+    ```
+    表单重置：记住 要用document.getElementById("myform").reset(); 不要用$("#myform").reset();
+    ```
+- []()
 
 ### 3.Thymeleaf-参考：
 - [Thymeleaf入门与基本概述](https://www.cnblogs.com/jiangbei/p/8462294.html)

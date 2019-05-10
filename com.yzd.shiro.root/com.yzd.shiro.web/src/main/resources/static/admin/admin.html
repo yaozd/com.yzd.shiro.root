@@ -49,8 +49,13 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a href="/admin/home.html" data-pjax>首页</a>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">系统管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/admin/user/userList.html" data-pjax>用户管理</a></dd>
+                        <dd><a href="javascript:;">角色管理</a></dd>
+                        <dd><a href="/admin/auth/permList.html" data-pjax>权限管理</a></dd>
+                    </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">所有商品</a>
@@ -58,7 +63,6 @@
                         <dd><a href="javascript:;">列表一</a></dd>
                         <dd><a href="javascript:;">列表二</a></dd>
                         <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
@@ -66,16 +70,13 @@
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">列表一</a></dd>
                         <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="">超链接</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
-                <li class="layui-nav-item"><a href="">发布商品</a></li>
             </ul>
         </div>
     </div>
 
-    <div class="layui-body" id="pjax-container">
+    <div class="layui-body" id="pjax-container" style="margin: 1%">
         <!-- 内容主体区域 -->
     </div>
 
@@ -86,13 +87,31 @@
 </div>
 <script>
     //JavaScript代码区域
-    layui.use('element', function(){
+    layui.use(['element', 'layer'], function(){
         var element = layui.element;
-
+        var layer = layui.layer;
     });
 </script>
 <script>
+    /**
+     * 获得pjax打开的url
+     * @returns {string}
+     */
+    function openUrlFun() {
+        var referrer4Header=document.referrer;
+        var referrer4Cookie=$.cookie("___referrer");
+        if(referrer4Cookie!=""){
+            $.removeCookie("___referrer",{path:"/"});
+        }
+        if(referrer4Header!=""&&referrer4Cookie!=""&&referrer4Header==referrer4Cookie){
+            return referrer4Header;
+        }
+        return "/admin/home.html";
+    }
+</script>
+<script>
     $(document).pjax('[data-pjax] a, a[data-pjax]', '#pjax-container');
+    $.pjax({url: openUrlFun(),container: '#pjax-container'});
     $('body').on('click', '#btn4Logout', function() {
         alert("logout");
         localStorage.removeItem("token");
