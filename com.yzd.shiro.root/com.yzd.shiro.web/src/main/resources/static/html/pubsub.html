@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript设计模式之观察者模式</title>
+    <script src="/js/jquery-2.1.1.min.js"></script>
+</head>
+<body>
+    <h1>观察者模式又叫发布订阅模式（Publish/Subscribe）</h1>
+    <p>根据jQuery1.7版新增的on/off功能，我们也可以定义jQuery版的观察者：</p>
+    <p>https://www.cnblogs.com/leejersey/p/4244332.html</p>
+<script>
+    (function ($) {
+
+        var o = $({});
+
+        $.subscribe = function () {
+            o.on.apply(o, arguments);
+        };
+
+        $.unsubscribe = function () {
+            o.off.apply(o, arguments);
+        };
+
+        $.publish = function () {
+            o.trigger.apply(o, arguments);
+        };
+
+    } (jQuery));
+</script>
+<script>
+    //回调函数
+    function handle(e, a, b, c) {
+        // `e`是事件对象，不需要关注
+        console.log(a + b + c);
+    };
+
+    //订阅
+    $.subscribe("/some/topic", handle);
+    //发布
+    $.publish("/some/topic", ["a", "b", "c"]); // 输出abc
+
+
+    $.unsubscribe("/some/topic", handle); // 退订
+
+    //订阅
+    $.subscribe("/some/topic", function (e, a, b, c) {
+        console.log(a + b + c);
+    });
+
+    $.publish("/some/topic", ["a", "b", "c"]); // 输出abc
+
+    //退订（退订使用的是/some/topic名称，而不是回调函数哦，和版本一的例子不一样
+    $.unsubscribe("/some/topic");
+</script>
+</body>
+</html>

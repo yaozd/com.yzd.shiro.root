@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Linqa.js Test</title>
+    <link rel="stylesheet" type="text/css" href="qunit-2.3.3.css">
+    <script src="/js/linqa-0.2.js"></script>
+    <script src="/js/qunit-2.3.3.js"></script>
+    <script type="text/javascript">
+        QUnit.test("Linqa.js test", function(assert) {
+
+            var data1 = [1,3,5,7,9];
+            var sum = 0;
+            data1.each(a=>sum+=a);
+            assert.equal(sum, 25);
+
+            var data2 = [{x:1, y:1}, {x:3, y:3}, {x:5, y:5}, {x:7, y:7}, {x:9, y:9}];
+            var str = '(' + data2.select(a=>a.x + ',' + a.y).join('), (') + ')';
+            assert.equal(str, '(1,1), (3,3), (5,5), (7,7), (9,9)');
+            assert.equal(data2.select((a,i)=>i).join(','), '0,1,2,3,4');
+
+            var q = data2.where(a=>a.x*a.y == 25);
+            assert.equal(q.length, 1);
+            assert.ok(q[0].x==5&&q[0].y==5);
+
+            assert.equal(data1.first(), 1);
+            assert.equal(data1.last(), 9);
+
+
+            var data4 = [1, 5, 3, 9, 7];
+            assert.equal(data4.orderAsc(a=>a).join(','), '1,3,5,7,9');
+            assert.equal(data4.orderAsc().join(','), '1,3,5,7,9');
+
+            var data5 = [[1,5], [1,3], [5, 2], [3,4], [2,5]];
+            assert.equal(data5.orderAsc(a=>[a[0], a[1]]).select(a=>a[0]+','+a[1]).join('|'), '1,3|1,5|2,5|3,4|5,2');
+
+
+            assert.equal(data4.orderDesc(a=>a).join(','), '9,7,5,3,1');
+            assert.equal(data4.orderDesc().join(','), '9,7,5,3,1');
+            assert.equal(data5.orderDesc(a=>[a[0],a[1]]).select(a=>a[0]+','+a[1]).join('|'), '5,2|3,4|2,5|1,5|1,3');
+
+            var grps = data5.groupBy(a=>a[0]);
+            assert.equal(grps.select(a=>a.key).orderAsc(a=>a).join(','), '1,2,3,5');
+            assert.ok(grps.first().list.length==2 && grps.last().list.length==1 && grps[1].list[0][0]==5 && grps[1].list[0][1]==2);
+
+            var data6 = [{x:1, y:6, z:3}, {x:1, y:5, z:3}, {x:2, y:1, z:8}, {x:2, y:6, z:5}, {x:2, y:9, z:8}];
+            grps = data6.groupBy(a=>[a.x, a.z]);
+            assert.ok(grps.length == 3 && grps[0].list.length == 2 && grps[1].list.length==2 && grps[2].list.length == 1);
+            assert.equal(grps[1].list.select(a=>a.x+''+a.y+''+a.z).join(''), '218298');
+
+            var data7 = [1,2,3,4,5,6,7,8,9,10];
+            assert.equal(data7.sum(a=>a), 55);
+            assert.equal(data7.sum(),  55);
+            assert.equal(data6.sum(a=>a.x+a.y+a.z), 62);
+
+            var data8 = [2,4,6,8,10,6];
+            assert.equal(data8.avg(a=>a), 6);
+            assert.equal(data8.avg(), 6);
+
+            assert.equal(data8.min(), 2);
+            assert.equal(data8.max(), 10);
+            assert.ok(data8.min(a=>a) == 2);
+            assert.ok(data8.max(a=>a) == 10);
+
+            var minV = data6.min(a=>a.x);
+            assert.ok(minV.x==1 && minV.y==6 && minV.z==3);
+            minV = data6.min(a=>[a.x, a.y]);
+            assert.ok(minV.x==1 && minV.y==5 && minV.z==3);
+
+            var maxV = data6.max(a=>a.y);
+            assert.ok(maxV.x==2&&maxV.y==9&&maxV.z==8);
+            var maxV = data6.max(a=>[a.z, a.y]);
+            assert.ok(maxV.x==2&&maxV.y==9&&maxV.z==8);
+
+            assert.equal(data7.count(a=>a%2==0), 5);
+            var pieces = data8.pieces(2);
+            assert.ok(pieces.length == 3 && pieces[1][0]==6 && pieces[1][1]==8);
+            pieces = data1.pieces(3);
+            assert.ok(pieces.length == 2 && pieces[1].length == 2);
+
+            sum = 0;
+            data8.all(a=>a%2==0).then(()=>{
+                sum = data8.sum(a=>a);
+        });
+
+            assert.equal(sum, 36);
+            var flag = false;
+            data7.all(a=>a%2==0).then(()=>{
+                flag = true;
+        });
+
+            assert.ok(flag == false);
+            data8.any(a=>a%2==1).then(()=>{
+                flag =true;
+        });
+            assert.ok(flag == false);
+
+            data7.any(a=>a==5).then(()=>{
+                flag = true;
+        });
+            assert.ok(flag);
+
+            assert.equal(data7.count(a=>a%2==0), 5);
+            assert.equal(data8.skip(4).join(''), '106');
+            assert.equal(data7.take(3,3).join(''), '456');
+
+            var err = null;
+            try {
+                data8.take(0, 10);
+            }
+            catch(e) {
+                err = e;
+            }
+            assert.equal(err, String.format('index overflow with value {0}', 10));
+
+            err = null;
+            try {
+                data8.skip(10);
+            }
+            catch(e) {
+                err = e;
+            }
+
+            assert.equal(err, String.format('index overflow with value {0}', 10));
+
+            assert.equal(data8.reverseAsCopy().join(''), '6108642');
+
+            var data9 = [1, 2, 5, 6, 9];
+            assert.equal(data9.intersect(data8).join(''), '26');
+
+            var data10 = [2,4,5,6,7,8];
+            assert.equal(data10.union(data9).orderAsc(a=>a).join(''), '12456789');
+
+            var data11 = [{'name':'Jacky', 'age':21, 'sex': 'male'}, {'name':'Mike', 'age':16, 'sex':'male'}, {'name':'Lily', 'age':19, 'sex':'female'}];
+            var data12 = [{'name':'Jude', 'age':25, 'sex':'female'}, {'name':'Jacky', 'age':21, 'sex': 'male'}, {'name':'Susan', 'age':22, 'sex':'female'}];
+
+            var personCompare = (a,b) => a.name == b.name;
+            var set = data11.intersect(data12, personCompare);
+            assert.equal(set.length, 1);
+            assert.ok(set.first().name == 'Jacky');
+        });
+    </script>
+</head>
+
+<body>
+<div id="qunit">
+</div>
+</body>
+</html>

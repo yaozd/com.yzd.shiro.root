@@ -9,14 +9,62 @@ layui.use(['form', 'layedit', 'laydate'], function(){
         return false;
     });
 });
+$(function () {
+    initListPermFun();
+});
+var tmpList=[];
+function initListPermFun() {
+    instance.get("/api/auth/getListPerm")
+        .then(function (response) {
+            var result=response.data;
+            if(result.code==200){
+                console.log(result);
+                tmpList=result.data;
+                var itemList4All=result.data.orderAsc(function (a){
+                    return [a.sortNo,a.id];
+                });
+                var treeData=sonsTree(itemList4All,0);
+                console.log(treeData);
+            }
+        });
+}
+/**
+ * 利用子孙树生成一个树形
+ * @param arr
+ * @param id
+ * @returns {Array}
+ */
+function sonsTree(arr,id){
+    var temp = [],lev=0;
+    var forFn = function(arr, id,lev){
+        for (var i = 0; i < arr.length; i++) {
+            var item = arr[i];
+            if (item.parentId==id) {
+                item.lev=lev;
+                temp.push(item);
+                forFn(arr,item.id,lev+1);
+            }
+        }
+    };
+    forFn(arr, id,lev);
+    return temp;
+}
 //添加或修改资源
 function submit4PermFun() {
-    alert("submit4PermFun");
+    //alert("submit4PermFun");
     console.log($("#form4Perm").serializeJson());
     instance.post('/api/auth/addEditPerm',$("#form4Perm").serializeJson())
         .then(function (response) {
-            console.log(response);
-            alert("ok");
+            var result=response.data;
+            if(result.code==200){
+                //弹出层:无关闭按钮
+                layer.alert("添加成功！",{  closeBtn: 0 },function(){
+                    layer.closeAll();
+                    //加载load方法
+                });
+                return;
+            }
+            alert(result.data);
         });
 }
 

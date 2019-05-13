@@ -22,6 +22,8 @@ public class GetListPermVM {
     private Integer permissionType;
 
     private String url;
+
+    private Long parentId;
     public static GetListPermVM toVM(TbPermission item) {
         GetListPermVM getListPermVM = new GetListPermVM();
         getListPermVM.setId(item.getId());
@@ -32,6 +34,7 @@ public class GetListPermVM {
         getListPermVM.setEnableStatus(item.getEnableStatus());
         getListPermVM.setPermissionType(item.getPermissionType());
         getListPermVM.setUrl(item.getUrl());
+        getListPermVM.setParentId(item.getParentId());
         return getListPermVM;
     }
 }

@@ -1,6 +1,8 @@
 ### 1.测试导航-Html测试练习
 - [http://localhost:9091/html/Login.html](http://localhost:9091/html/Login.html)
 - [http://localhost:9091/html/admin.html](http://localhost:9091/html/admin.html)
+- [http://localhost:9091/html/pubsub.html](http://localhost:9091/html/pubsub.html)-观察者模式
+- [http://localhost:9091/html/linq.html](http://localhost:9091/html/linq.html)-linq
 - [http://localhost:9091/html/pjax/pjax.html](http://localhost:9091/html/pjax/pjax.html)-pjax实现页面无刷新渲染
 
 ### 2.测试导航-Admin
@@ -25,7 +27,42 @@
     ```
     表单重置：记住 要用document.getElementById("myform").reset(); 不要用$("#myform").reset();
     ```
-- []()
+- [layer弹出层官网](http://layer.layui.com)-推荐参考byArvin
+- layer弹出层是否带关闭
+    ```
+    ==》有关闭按钮
+    layer.alert("添加成功！",function(){
+        layer.closeAll();
+        //加载load方法
+        location.reload();//自定义
+    });
+    ==》无关闭按钮
+    layer.alert("添加成功！",{  closeBtn: 0 },function(){
+        layer.closeAll();
+        //加载load方法
+        location.reload();//自定义
+    });
+    ```
+- [jQuery TreeGrid](https://www.cnblogs.com/sunyingyuan/p/3686213.html)
+- [js递归算法实现无限级树形菜单](http://www.51xuediannao.com/javascript/digui_shu.html)
+    ```
+    var dataAll=tmpList.orderAsc(a=>[a.sortNo,a.id])
+    function sonsTree(arr,id){
+        var temp = [],lev=0;
+        var forFn = function(arr, id,lev){
+            for (var i = 0; i < arr.length; i++) {
+                var item = arr[i];
+                if (item.parentId==id) {
+                    item.lev=lev;
+                    temp.push(item);
+                    forFn(arr,item.id,lev+1);
+                }
+            }
+        };
+        forFn(arr, id,lev);
+        return temp;
+    }
+    ```
 
 ### 3.Thymeleaf-参考：
 - [Thymeleaf入门与基本概述](https://www.cnblogs.com/jiangbei/p/8462294.html)
