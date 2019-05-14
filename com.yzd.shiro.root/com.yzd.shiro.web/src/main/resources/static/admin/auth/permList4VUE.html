@@ -1,0 +1,152 @@
+<script src="/admin/jquery.pjax.extend.js"></script>
+<!--//自定义html-->
+<link rel="stylesheet" href="/treegrid/css/grid.css">
+<div>
+    <div class="demoTable">
+        &nbsp;&nbsp;<button class="layui-btn" onclick="addPermFun(0)">开通权限</button>
+    </div>
+
+    <div id="permTable" class="grid" style="top: 43px;">
+        <div class="grid-content">
+            <div class="grid-head">
+                <table class="layui-table" style="width: 1652px;">
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="grid-coll" style="width: 299px;">权限名称</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll" style="width: 165px;">权限分类</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll" style="width: 466px;">权限路径</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll" style="width: 233px;">权限code</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll" style="width: 134px;">优先级</div>
+                        </th>
+                        <th style="width:140px;">
+                            <div class="grid-coll" style="width: 168px;">操作</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="grid-body" style="top: 40px; bottom: 0px;">
+                <table class="layui-table" style="margin-top: -38px;">
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="grid-coll">权限名称</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll">权限分类</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll">权限路径</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll">权限code</div>
+                        </th>
+                        <th>
+                            <div class="grid-coll">优先级</div>
+                        </th>
+                        <th style="width:140px;">
+                            <div class="grid-coll">操作</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="contentTpl">
+                    <tr class="treegrid-1 treegrid-expanded" v-for="item in reports">
+                        <td v-html="item.nameHtml">{{item.nameHtml}}</td>
+                        <td>{{item.typeName}}</td>
+                        <td>{{item.url}}</td>
+                        <td>{{item.permissionCode}}</td>
+                        <td>{{item.sortNo}}</td>
+                        <td>
+                            <a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('1',0);">编辑</a>
+                            <a class="layui-btn layui-btn-xs" @click="addPermVUE(item.id)">添加子节点</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('1','系统管理')">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--添加或编辑权限-->
+<div id="updatePerm" class="layer_self_wrap" style="width:500px;display:none;">
+    <form id="form4Perm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+        <!--记录ID-->
+        <input id="id" type="hidden" name="id"/>
+        <!--父类ID-->
+        <input id="parentId" type="hidden" name="parentId"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">资源名称</label>
+            <div class="layui-input-inline">
+                <input name="name" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+        <div class="layui-form-item" pane="">
+            <label class="layui-form-label">资源类型</label>
+            <div class="layui-input-block">
+                <input name="permissionType" value="1" title="目录" checked="" type="radio"/>
+                <input name="permissionType" value="2" title="菜单" type="radio"/>
+                <input name="permissionType" value="3" title="功能" type="radio"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">请求地址</label>
+            <div class="layui-input-inline">
+                <input name="url" autocomplete="off" class="layui-input" type="text" value=""/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限标识</label>
+            <div class="layui-input-inline">
+                <input name="permissionCode" autocomplete="off" class="layui-input" type="text" value=""/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-inline">
+                <input name="sortNo" autocomplete="off" lay-verify="required" class="layui-input" type="text"
+                       onkeyup="this.value=this.value.replace(/\D/g,'')"
+                       onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+            </div>
+            <div class="layui-form-mid layui-word-aux">请填写大于0的整数数字</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否可见</label>
+            <div class="layui-input-block">
+                <input name="visibleStatus" value="1" title="可见" checked="" type="radio"/>
+                <input name="visibleStatus" value="2" title="隐藏" type="radio"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否启用</label>
+            <div class="layui-input-block">
+                <input name="enableStatus" value="1" title="启用" checked="" type="radio"/>
+                <input name="enableStatus" value="2" title="停用" type="radio"/>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注说明</label>
+            <div class="layui-input-block">
+                <textarea name="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left: 10px;">
+                <button class="layui-btn" lay-submit="" lay-filter="submit4Perm">提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!--//自定义javascript-->
+<script src="/script/auth/permList4VUE.js"></script>

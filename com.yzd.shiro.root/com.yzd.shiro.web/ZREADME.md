@@ -46,7 +46,9 @@
 - [jQuery TreeGrid](https://www.cnblogs.com/sunyingyuan/p/3686213.html)
 - [js递归算法实现无限级树形菜单](http://www.51xuediannao.com/javascript/digui_shu.html)
     ```
+    //排序
     var dataAll=tmpList.orderAsc(a=>[a.sortNo,a.id])
+    //生成树结构
     function sonsTree(arr,id){
         var temp = [],lev=0;
         var forFn = function(arr, id,lev){
@@ -62,6 +64,38 @@
         forFn(arr, id,lev);
         return temp;
     }
+    ```
+- [如何在JavaScript中写枚举(翻译)](https://www.jianshu.com/p/76fc5ffa9279)
+- [JavaScript对象枚举遍历](https://blog.csdn.net/qq_42062727/article/details/80480860)
+    ```
+    /**
+     * 资源类型枚举
+     */
+    var PermissionTypeEnum = {
+        CATALOG: {name: "small", value: 1},
+        MENU: {name: "medium", value: 2},
+        FEATURE: {name: "large", value: 3},
+    };
+    ------------------
+    //来自permList4VUE.js
+    toTypeName:function (permissionType) {
+            //枚举遍历
+            for(var prop in PermissionTypeEnum){
+                var item=PermissionTypeEnum[prop];
+                if(item.value==permissionType){
+                    return item.name;
+                }
+            }
+            return "";
+        }
+    ```
+-   [vue中运用v-html渲染标签]-闭合问题
+    ```
+    1.错误：缺少</span>
+    temp.push("<span class=\"treegrid-indent\">");
+    --------------
+    2.正确：
+    temp.push("<span class=\"treegrid-indent\"></span>");
     ```
 
 ### 3.Thymeleaf-参考：
