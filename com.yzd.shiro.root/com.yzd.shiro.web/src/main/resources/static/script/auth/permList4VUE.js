@@ -15,7 +15,6 @@ var vm = new Vue({
         }
     }
 });
-
 function getData() {
     instance.get("/api/auth/getListPerm")
         .then(function (response) {
@@ -28,7 +27,7 @@ function getData() {
                     return [a.sortNo,a.id];
                 });
                 //生成树结构
-                var treeData=sonsTree(itemList4All,0);
+                var treeData=toTree(itemList4All,0);
                 //转为显示数据
                 var viewData=toView(treeData);
                 vm.reports=viewData;
@@ -49,7 +48,7 @@ var ViewUtil ={
         for (var i = 0; i < lev; i++) {
             temp.push("<span class=\"treegrid-indent\"></span>");
         }
-        return temp.toString();
+        return temp.join("");
     },
     toTypeName:function (permissionType) {
         //枚举遍历
@@ -98,11 +97,13 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 });
 /**
  * 利用子孙树生成一个树形
+ * 参考：sonsTree（）
+ * http://www.51xuediannao.com/javascript/digui_shu.html
  * @param arr
  * @param id
  * @returns {Array}
  */
-function sonsTree(arr,id){
+function toTree(arr,id){
     var temp = [],lev=0;
     var forFn = function(arr, id,lev){
         for (var i = 0; i < arr.length; i++) {

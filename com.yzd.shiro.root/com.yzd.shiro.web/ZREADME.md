@@ -133,5 +133,20 @@ https://caniuse.com/#search=pushstate
 - 通过referrer与cookie实现自动跳转
     - [javascript操作referer方法探讨](http://www.jquerycn.cn/a_11559)
     - [jquery之cookie操作](https://www.cnblogs.com/s313139232/p/7839037.html)
+- [解决pjax加载页面不执行js插件的问题](https://www.cnblogs.com/fanwenhao/p/9643549.html)-特别重要--重点参考byArvin
+    ```
+    在使用jquery.pjax的时候发现加载页面时不会执行其中的layui以及jquery的初始化方法，包括一些插件的初始化方法。
+    查看源码后发现该jquery.pjax替换容器内容时，是将服务器端返回的html转换为了jquery dom节点然后再执行的替换，但是这样操作会导致一系列的加载事件不会被触发，导致例如jquery和layui的初始化方法不会被执行。
+    于是决定将添加dom节点修改为直接添加html片段。
+    修改代码
+    1.将jquery.pjax.js中311行的 context.html(container.contents)修改为 context.html(data)。
+    这样在pjax加载新页面的时候便会直接将服务器端返回html片段添加进容器。
+    但是这样仅处理了新增页面，而执行回退操作时pjax会从缓存中读取上一个页面的内容，同样pjax在回退上一个页面的时候依然是以dom节点的方式存储和添加的，所以我们还需要继续修改。
+    2. 将365行的
+      cachePush(pjax.state.id, [options.container, cloneContents(context)])
+        修改为
+      cachePush(pjax.state.id, [options.container, context.html()])
+    到此修改完成，此时使用pjax加载新页面的时候，layui jquery等插件的初始化方法即可正确执行。
+    ```
 - []()
 - []()
