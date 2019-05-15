@@ -66,11 +66,23 @@
         </dependency>
         <!--========================================================-->
         <!-- devtools 热部署,必须在DEBUG模式下才生效 -->
+        <!-- 程序打包时，不会打包devtools进去-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
     </dependencies>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!--如果没有fork配置,devtools不起作用，即项目修改后不会重新启动 -->
+                    <fork>true</fork>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

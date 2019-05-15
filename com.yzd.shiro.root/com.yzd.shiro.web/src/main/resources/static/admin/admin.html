@@ -55,7 +55,7 @@
                     <a href="javascript:;">系统管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="/admin/user/userList.html" data-pjax>用户管理</a></dd>
-                        <dd><a href="javascript:;">角色管理</a></dd>
+                        <dd><a href="/admin/auth/roleManage.html" data-pjax>角色管理</a></dd>
                         <dd><a href="/admin/auth/permList.html" data-pjax>权限管理</a></dd>
                         <dd><a href="/admin/auth/permList4VUE.html" data-pjax>权限管理-VUE</a></dd>
                     </dl>
@@ -114,7 +114,8 @@
 </script>
 <script>
     //$.pjax.defaults.timeout = 5000;
-    //$.pjax.defaults.maxCacheLength = 0;
+    //Pjax设置为不缓存，提高数据实时性
+    $.pjax.defaults.maxCacheLength = 0;
     //关闭ajax缓存
     //$.ajaxSettings.cache=false;
     //$.ajaxSettings.async=true;
