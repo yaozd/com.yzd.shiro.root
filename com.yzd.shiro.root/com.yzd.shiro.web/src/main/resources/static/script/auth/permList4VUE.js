@@ -15,6 +15,9 @@ var vm = new Vue({
         },
         delVUE:function (id,name) {
             delFun(id,name);
+        },
+        editVUE:function (id) {
+            editPermFun(id);
         }
     }
 });
@@ -45,6 +48,30 @@ var ViewUtil ={
     },
     toNameHtml:function (item) {
         return item.levelSpan+item.treegridExpander+item.name;
+    },
+    toFormView:function (item) {
+        //表单初始赋值
+        var options = { jsonValue: item, isDebug: false };
+        $("#form4Perm").initForm(options);
+    },
+    toOpenLayer4UpdatePerm:function (title) {
+        layer.open({
+            type:1,
+            title: title,
+            fixed:true,
+            resize :true,
+            shadeClose: true,
+            area: ['600px', '700px'],
+            content:$('#updatePerm'),  //页面自定义的div，样式自定义
+            success:function(layero){
+                //layer弹层遮罩挡住窗体解决
+                var mask = $(".layui-layer-shade");
+                mask.appendTo(layero.parent());
+            },
+            end:function(){
+                //window.location.reload();
+            }
+        });
     }
 };
 /**
@@ -110,9 +137,11 @@ function submit4PermFun() {
             var result=response.data;
             if(result.code==200){
                 //弹出层:无关闭按钮
-                layer.alert("添加成功！",{  closeBtn: 0 },function(){
+                layer.alert("操作成功！",{  closeBtn: 0 },function(){
                     layer.closeAll();
                     //加载load方法
+                    //window.location.reload();
+                    initDataFun();
                 });
                 return;
             }
@@ -127,7 +156,8 @@ function addPermFun(parentId){
     if(null!=parentId){
         $("#id").val(0);
         $("#parentId").val(parentId);
-        layer.open({
+        ViewUtil.toOpenLayer4UpdatePerm("添加权限");
+        /*layer.open({
             type:1,
             title: "添加权限",
             fixed:true,
@@ -143,7 +173,46 @@ function addPermFun(parentId){
             end:function(){
                 //window.location.reload();
             }
-        });
+        });*/
+    }
+}
+
+/**
+ * 编辑权限
+ */
+function editPermFun(id){
+    //表单重置：记住 要用document.getElementById("myform").reset(); 不要用$("#myform").reset();
+    document.getElementById("form4Perm").reset();
+    if(null!=id){
+        instance.get("/api/auth/getPerm?id="+id).then(function (response) {
+                var result=response.data;
+                if(result.code==200){
+                    var item=result.data;
+                    console.log(item);
+                    ViewUtil.toFormView(item);
+                    ViewUtil.toOpenLayer4UpdatePerm("更新权限");
+                    /*layer.open({
+                        type:1,
+                        title: "更新权限",
+                        fixed:true,
+                        resize :true,
+                        shadeClose: true,
+                        area: ['600px', '700px'],
+                        content:$('#updatePerm'),  //页面自定义的div，样式自定义
+                        success:function(layero){
+                            //layer弹层遮罩挡住窗体解决
+                            var mask = $(".layui-layer-shade");
+                            mask.appendTo(layero.parent());
+                        },
+                        end:function(){
+                            //window.location.reload();
+                        }
+                    });*/
+                    return;
+                }
+                alert(result.data);
+                layer.alert("获取权限数据出错，请您稍后再试"+result.data);
+            });
     }
 }
 //删除权限

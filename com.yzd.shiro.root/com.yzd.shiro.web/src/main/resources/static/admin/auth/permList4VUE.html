@@ -1,5 +1,6 @@
 <script src="/admin/jquery.pjax.extend.js"></script>
 <!--//自定义html-->
+<script src="/js/jquery.form.extend.js"></script>
 <link rel="stylesheet" href="/treegrid/css/grid.css">
 <div>
     <div class="demoTable">
@@ -67,7 +68,7 @@
                         <td>{{item.permissionCode}}</td>
                         <td>{{item.sortNo}}</td>
                         <td>
-                            <a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('1',0);">编辑</a>
+                            <a class="layui-btn layui-btn-primary layui-btn-xs" @click="editVUE(item.id)">编辑</a>
                             <a class="layui-btn layui-btn-xs" @click="addPermVUE(item.id)">添加子节点</a>
                             <a class="layui-btn layui-btn-danger layui-btn-xs" @click="delVUE(item.id,item.name)">删除</a>
                         </td>
@@ -80,7 +81,7 @@
 </div>
 <!--添加或编辑权限-->
 <div id="updatePerm" class="layer_self_wrap" style="width:500px;display:none;">
-    <form id="form4Perm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+    <form id="form4Perm" lay-filter="form4Perm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;" >
         <!--记录ID-->
         <input id="id" type="hidden" name="id"/>
         <!--父类ID-->

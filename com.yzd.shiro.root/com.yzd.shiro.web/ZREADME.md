@@ -43,6 +43,17 @@
         location.reload();//自定义
     });
     ```
+-   [vue中运用v-html渲染标签]-闭合问题
+    ```
+    1.错误：缺少</span>
+    temp.push("<span class=\"treegrid-indent\">");
+    --------------
+    2.正确：
+    temp.push("<span class=\"treegrid-indent\"></span>");
+    ```
+
+
+### 2.2.JQuery-问题处理参考
 - [jQuery TreeGrid](https://www.cnblogs.com/sunyingyuan/p/3686213.html)
 - [js递归算法实现无限级树形菜单](http://www.51xuediannao.com/javascript/digui_shu.html)
     ```
@@ -89,14 +100,12 @@
             return "";
         }
     ```
--   [vue中运用v-html渲染标签]-闭合问题
+- [jQuery自动给表单赋值](https://blog.csdn.net/liu22985342/article/details/27534501)
     ```
-    1.错误：缺少</span>
-    temp.push("<span class=\"treegrid-indent\">");
-    --------------
-    2.正确：
-    temp.push("<span class=\"treegrid-indent\"></span>");
+    var options = { jsonValue: dd, isDebug: false };
+    $("#UserForm_Modify").initForm(options);
     ```
+- []()
 
 ### 3.Thymeleaf-参考：
 - [Thymeleaf入门与基本概述](https://www.cnblogs.com/jiangbei/p/8462294.html)

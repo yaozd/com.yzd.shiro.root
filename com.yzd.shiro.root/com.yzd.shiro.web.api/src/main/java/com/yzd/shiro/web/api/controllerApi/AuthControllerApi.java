@@ -29,8 +29,12 @@ public class AuthControllerApi {
     public String addEditPerm(@RequestBody AddEditPermForm form) {
         //
         TbPermission item = AddEditPermForm.toEntity(form);
-        iPermissionServiceInf.insertSelective(item);
-        return "auth:addEditPerm-true";
+        if(item.getId()==0){
+            iPermissionServiceInf.insertSelective(item);
+            return "auth:add-ok";
+        }
+        iPermissionServiceInf.updateByPrimaryKeySelective(item);
+        return "auth:edit-ok";
     }
 
     @ApiOperation(value = "getListPerm-获得资源列表")
