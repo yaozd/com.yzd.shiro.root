@@ -4,6 +4,9 @@ var AUTH_TOKEN=(function(){
 var instance = axios.create({
     baseURL: 'http://localhost:9090'
 });
+//配置请求头为json格式
+instance.defaults.headers['Content-Type'] = 'application/json';
+//
 instance.defaults.headers.common["Authorization"] = AUTH_TOKEN;
 instance.interceptors.request.use(function(config){
     var url = config.url;
