@@ -5,37 +5,20 @@ var vm = new Vue({
     el: "#contentTpl",
     data: model,
     created:function(){
-        getData();
+        initDataFun();
     },
     methods:{
         addPermVUE:function (val) {
             console.log(val);
             addPermFun(val);
             return "aaaa";
+        },
+        delVUE:function (id,name) {
+            delFun(id,name);
         }
     }
 });
-function getData() {
-    instance.get("/api/auth/getListPerm")
-        .then(function (response) {
-            var result=response.data;
-            if(result.code==200){
-                console.log(result);
-                tmpList=result.data;
-                //排序
-                var itemList4All=result.data.orderAsc(function (a){
-                    return [a.sortNo,a.id];
-                });
-                //生成树结构
-                var treeData=toTree(itemList4All,0);
-                //转为显示数据
-                var viewData=toView(treeData);
-                vm.reports=viewData;
-                console.log(treeData);
-                console.log(viewData);
-            }
-        });
-}
+
 var ViewUtil ={
     toTreegridExpander:function (permissionType) {
         if(permissionType==PermissionTypeEnum.CATALOG.value){
@@ -162,4 +145,55 @@ function addPermFun(parentId){
             }
         });
     }
+}
+//删除权限
+function delFun(id,name){
+    console.log("===删除id："+id);
+    if(null!=id){
+        layer.confirm('您确定要删除['+name+']权限吗？', {
+            btn: ['确认','返回'] //按钮
+        }, function(){
+            instance.post('/api/auth/delPerm?id='+id)
+                .then(function (response) {
+                    var result=response.data;
+                    if(result.code==200){
+                        //回调弹框
+                        layer.alert("删除成功！",function(){
+                            layer.closeAll();
+                            //加载load方法
+                            location.reload();;//自定义
+                        });
+                        return;
+                    }
+                    layer.closeAll();
+                    alert(result.data);
+                });
+        }, function(){
+            layer.closeAll();
+        });
+    }
+};
+/**
+ * 数据初始化--权限资源列表
+ */
+function initDataFun() {
+    instance.get("/api/auth/getListPerm")
+        .then(function (response) {
+            var result=response.data;
+            if(result.code==200){
+                console.log(result);
+                tmpList=result.data;
+                //排序
+                var itemList4All=result.data.orderAsc(function (a){
+                    return [a.sortNo,a.id];
+                });
+                //生成树结构
+                var treeData=toTree(itemList4All,0);
+                //转为显示数据
+                var viewData=toView(treeData);
+                vm.reports=viewData;
+                console.log(treeData);
+                console.log(viewData);
+            }
+        });
 }

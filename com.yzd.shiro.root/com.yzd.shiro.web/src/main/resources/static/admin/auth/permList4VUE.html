@@ -69,7 +69,7 @@
                         <td>
                             <a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('1',0);">编辑</a>
                             <a class="layui-btn layui-btn-xs" @click="addPermVUE(item.id)">添加子节点</a>
-                            <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('1','系统管理')">删除</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" @click="delVUE(item.id,item.name)">删除</a>
                         </td>
                     </tr>
                     </tbody>

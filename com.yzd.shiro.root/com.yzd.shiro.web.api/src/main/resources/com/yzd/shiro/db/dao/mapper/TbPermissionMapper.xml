@@ -169,4 +169,9 @@
     ORDER BY id
     <include refid="Query_Where_ClauseForPageWhere" />
   </select>
+  <select id="selectCount" resultType="java.lang.Long">
+    SELECT COUNT(*)
+    FROM tb_permission
+    <include refid="Query_Where_ClauseForExtendWhere" />
+  </select>
 </mapper>

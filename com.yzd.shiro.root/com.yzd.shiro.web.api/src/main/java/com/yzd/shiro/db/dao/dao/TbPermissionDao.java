@@ -27,7 +27,12 @@ public class TbPermissionDao {
     public int updateByPrimaryKeySelective(TbPermission record) {
         return tbPermissionMapper.updateByPrimaryKeySelective(record);
     }
+
     public List<TbPermission> selectList(TbPermission tableWhere, TbPermissionWhere extendWhere, PageWhere pageWhere) {
-        return tbPermissionMapper.selectList(tableWhere,extendWhere,pageWhere);
+        return tbPermissionMapper.selectList(tableWhere, extendWhere, pageWhere);
+    }
+
+    public Long selectCount(TbPermission tableWhere, TbPermissionWhere extendWhere) {
+        return tbPermissionMapper.selectCount(tableWhere, extendWhere);
     }
 }

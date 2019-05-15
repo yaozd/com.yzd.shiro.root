@@ -16,4 +16,6 @@ public interface TbPermissionMapper {
     //--==================================================自定义脚本==================================================--//
 
     List<TbPermission> selectList(@Param("pojo") TbPermission tableWhere, @Param("extendWhere") TbPermissionWhere extendWhere, @Param("pageWhere") PageWhere pageWhere);
+
+    Long selectCount(@Param("pojo") TbPermission tableWhere, @Param("extendWhere") TbPermissionWhere extendWhere);
 }

@@ -14,4 +14,6 @@ public interface IPermissionServiceInf {
     int updateByPrimaryKeySelective(TbPermission record);
 
     List<TbPermission> selectList(TbPermission tableWhere, TbPermissionWhere extendWhere, PageWhere pageWhere);
+
+    Long selectCount(TbPermission tableWhere, TbPermissionWhere extendWhere);
 }

@@ -34,4 +34,9 @@ public class PermissionServiceImpl implements IPermissionServiceInf
     public List<TbPermission> selectList(TbPermission tableWhere, TbPermissionWhere extendWhere, PageWhere pageWhere) {
         return tbPermissionDao.selectList(tableWhere, extendWhere, pageWhere);
     }
+
+    @Override
+    public Long selectCount(TbPermission tableWhere, TbPermissionWhere extendWhere) {
+        return tbPermissionDao.selectCount(tableWhere, extendWhere);
+    }
 }
