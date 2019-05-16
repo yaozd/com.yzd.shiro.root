@@ -4,6 +4,8 @@
 - [http://localhost:9091/html/pubsub.html](http://localhost:9091/html/pubsub.html)-观察者模式
 - [http://localhost:9091/html/linq.html](http://localhost:9091/html/linq.html)-linq
 - [http://localhost:9091/html/pjax/pjax.html](http://localhost:9091/html/pjax/pjax.html)-pjax实现页面无刷新渲染
+- [http://localhost:9091/html/tree/vue-tree.html](http://localhost:9091/html/tree/vue-tree.html)-vue如何用递归组件写树形控件
+- [http://localhost:9091/html/tree/js-tree.html](http://localhost:9091/html/tree/js-tree.html)-js 递归输出树型
 
 ### 2.测试导航-Admin
 - [http://localhost:9091/admin/admin.html](http://localhost:9091/admin/admin.html)
