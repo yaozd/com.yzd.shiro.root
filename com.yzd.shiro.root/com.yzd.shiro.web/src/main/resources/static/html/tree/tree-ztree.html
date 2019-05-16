@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ZTREE</title>
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="/ztree/css/zTreeStyle/zTreeStyle.css">
+    <script src="/ztree/jquery.ztree.all.js"></script>
+</head>
+<body>
+<P>- [zTree简单使用](https://www.cnblogs.com/shinhwazt/p/5828031.html)</P>
+<ul id="treeDemo" class="ztree"></ul>
+<script>
+    var data = {
+        teacher:[
+            {id:0,name:"张老师",sex:"男"},
+            {id:1,name:"李老师",sex:"男"},
+            {id:2,name:"王老师",sex:"女"}
+        ],
+        student:[
+            {id:0,name:"学生A",sex:"男",tId:0},
+            {id:1,name:"学生B",sex:"男",tId:0},
+            {id:2,name:"学生C",sex:"女",tId:1},
+            {id:3,name:"学生D",sex:"女",tId:1},
+            {id:4,name:"学生E",sex:"男",tId:2},
+            {id:5,name:"学生F",sex:"女",tId:2}
+        ]
+    };
+</script>
+<script>
+    function initTree(){
+        var teacherList = data.teacher;
+        var studentList = data.student;
+        var treeData = [];
+        treeData.push({id:"root",name:"学校",pId:null});
+        for(var i=0,il=teacherList.length;i<il;i++){
+            teacherList[i].pId = "root";
+            treeData.push(teacherList[i]);
+        }
+        for(var i=0,il=studentList.length;i<il;i++){
+            studentList[i].id = "s"+studentList[i].id;
+            studentList[i].pId = studentList[i].tId;
+            studentList[i].checked=true;
+            studentList[i].open=true;
+
+            treeData.push(studentList[i]);
+        }
+        //var setting={};
+        // zTree 的参数配置
+        var setting = {
+            check: {
+                enable: true,
+                chkboxType:{ "Y":"p", "N":"s"}
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        };
+        /*checked: true
+        code: "system"
+        icon: ""
+        id: "1"
+        istype: "0"
+        name: "系统管理"
+        open: true
+        pId: "0"*/
+        console.log(treeData);
+        $.fn.zTree.init($("#treeDemo"), setting, treeData);
+    }
+    $(function(){
+        initTree();
+    })
+</script>
+<script>
+    /**
+     * //获取选中的权限
+     */
+    function getCheck() {
+        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+        var nodes = treeObj.getCheckedNodes(true);
+        //选中的复选框
+        var nodeIds =new Array();
+        for (var i = 0; i < nodes.length; i++) {
+            nodeIds.push(nodes[i].id);
+        }
+        console.log(nodeIds)
+        //校验是否授权
+        var permList = nodeIds.join(",");
+        console.log(permList);
+    }
+
+</script>
+</body>
+</html>
