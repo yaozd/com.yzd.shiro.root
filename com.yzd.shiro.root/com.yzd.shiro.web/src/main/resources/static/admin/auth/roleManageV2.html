@@ -1,0 +1,100 @@
+<script src="/admin/jquery.pjax.extend.js"></script>
+<!--//自定义html-->
+<script src="/js/jquery.form.extend.js"></script>
+<link rel="stylesheet" href="/ztree/css/zTreeStyle/zTreeStyle.css">
+<script src="/ztree/jquery.ztree.all.js"></script>
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title">
+        <li id="roleListLi" class="layui-this">角色列表</li>
+        <li id="setRoleLi" >开通角色</li>
+        <li id="updateRoleLi" style="display:none;">更新角色</li>
+    </ul>
+    <div class="layui-tab-content" style="height: 100px;">
+        <!--角色列表-->
+        <div id="roleListDiv" class="layui-tab-item layui-show">
+            <div>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th>角色编号</th>
+                        <th>角色名称</th>
+                        <th>角色描述</th>
+                        <th>添加时间</th>
+                        <th width="88px;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody4RoleList">
+                    <tr v-for="item in reports">
+                        <td>{{item.roleCode}}</td>
+                        <td>{{item.roleName}}</td>
+                        <td>{{item.remark}}</td>
+                        <td>{{item.gmtCreateTime}}</td>
+                        <td>
+                            <button class="layui-btn layui-btn-xs" @click="updateRoleVUE(item.id)">编辑</button>
+                            <button class="layui-btn layui-btn-danger layui-btn-xs" onclick="delRole(1)">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--开通角色-->
+        <div id="setRoleDiv" class="layui-tab-item ">
+
+        </div>
+        <!--更新角色-->
+        <div id="updateRoleDiv" class="layui-tab-item" style="display:none;">
+
+        </div>
+
+    </div>
+</div>
+<!-- 自定义脚本 -->
+<script type="text/html" id="addEditFormTpl">
+    <div>
+        <form id="form4Role" class="layui-form" action="=" method="post">
+            <input type="hidden" id="id" name="id" value="0"/>
+            <input type="hidden" id="permIds" name="permIds"/>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">角色名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="roleName" lay-verify="required" autocomplete="off"
+                               class="layui-input"/>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">角色编号：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="roleCode" lay-verify="required" autocomplete="off"
+                               class="layui-input"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色描述：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="remark" lay-verify="" placeholder="" autocomplete="off"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限：</label>
+                <div class="layui-input-block">
+                    <ul id="ztree4PermList" class="ztree"></ul>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="submit4Role">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<script src="/script/auth/roleManagevV2.js"></script>

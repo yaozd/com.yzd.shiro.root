@@ -161,3 +161,15 @@ https://caniuse.com/#search=pushstate
     ```
 - []()
 - []()
+
+### 7.vue之防止页面加载时看到花括号解决方案
+- [使用 v-cloak 防止页面加载时出现 vuejs 的变量名](https://www.sunzhongwei.com/hide-vuejs-variable-with-v-cloak-when-page-loading)
+- [使用vue.js 绑定数据，加载页面时都会先显示{{ message }},在显示数据](http://www.imooc.com/wenda/detail/424821)
+- [vue之防止页面加载时看到花括号解决方案](https://blog.csdn.net/qq_33733970/article/details/78702127)-推荐参考byArvin
+```
+v-cloak v-text v-html
+v-cloak用于大段
+v-text用于单个标签
+v-html用于带有标签的处理
+```
+- []()
