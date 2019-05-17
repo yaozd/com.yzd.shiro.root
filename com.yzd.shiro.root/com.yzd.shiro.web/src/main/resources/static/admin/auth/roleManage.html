@@ -1,5 +1,8 @@
+
 <script src="/admin/jquery.pjax.extend.js"></script>
 <!--//自定义html-->
+<link rel="stylesheet" href="/ztree/css/zTreeStyle/zTreeStyle.css">
+<script src="/ztree/jquery.ztree.all.js"></script>
 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <ul class="layui-tab-title">
             <li id="roleListLi" >角色列表</li>
@@ -12,7 +15,8 @@
             </div>
             <div id="setRoleDiv" class="layui-tab-item layui-show">
                 <div>
-                    <form id="roleForm" class="layui-form" action="=" method="post">
+                    <form id="form4Role" class="layui-form" action="=" method="post">
+                        <input type="hidden" id="id" name="id" value="0"/>
                         <input type="hidden" id="permIds" name="permIds"/>
                         <div class="layui-form-item">
                             <div class="layui-inline">
@@ -26,7 +30,7 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">角色编号：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="code" lay-verify="required" autocomplete="off" class="layui-input"/>
+                                    <input type="text" name="roleCode" lay-verify="required" autocomplete="off" class="layui-input"/>
                                 </div>
                             </div>
                         </div>
@@ -34,19 +38,19 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">角色描述：</label>
                             <div class="layui-input-block">
-                                <input type="text" name="descpt" lay-verify="" placeholder="" autocomplete="off" class="layui-input"/>
+                                <input type="text" name="remark" lay-verify="" placeholder="" autocomplete="off" class="layui-input"/>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">权限：</label>
                             <div class="layui-input-block">
-                                <ul id="perm"></ul>
+                                <ul id="ztree4PermList" class="ztree"></ul>
                             </div>
                         </div>
 
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit="" lay-filter="roleSubmit">立即提交</button>
+                                <button class="layui-btn" lay-submit="" lay-filter="submit4Role">立即提交</button>
                                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                             </div>
                         </div>
@@ -63,3 +67,4 @@
 <div id="roleFormDiv">
 
 </div>
+<script src="/script/auth/roleManage.js"></script>
