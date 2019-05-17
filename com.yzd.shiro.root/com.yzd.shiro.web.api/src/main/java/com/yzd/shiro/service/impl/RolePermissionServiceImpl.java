@@ -1,7 +1,10 @@
 package com.yzd.shiro.service.impl;
 
 import com.yzd.shiro.db.dao.dao.TbRolePermissionDao;
+import com.yzd.shiro.db.entity.table.TbPermission;
 import com.yzd.shiro.db.entity.table.TbRolePermission;
+import com.yzd.shiro.db.entity.where.PageWhere;
+import com.yzd.shiro.db.entity.where.TbRolePermissionWhere;
 import com.yzd.shiro.service.inf.IRolePermissionServiceInf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +40,15 @@ public class RolePermissionServiceImpl implements IRolePermissionServiceInf {
     @Override
     public int updateByRoleIdSelective(TbRolePermission record) {
         return tbRolePermissionDao.updateByRoleIdSelective(record);
+    }
+
+    @Override
+    public List<TbRolePermission> selectList(TbRolePermission tableWhere, TbRolePermissionWhere extendWhere, PageWhere pageWhere) {
+        return tbRolePermissionDao.selectList(tableWhere, extendWhere, pageWhere);
+    }
+
+    @Override
+    public Long selectCount(TbPermission tableWhere, TbRolePermissionWhere extendWhere) {
+        return tbRolePermissionDao.selectCount(tableWhere, extendWhere);
     }
 }

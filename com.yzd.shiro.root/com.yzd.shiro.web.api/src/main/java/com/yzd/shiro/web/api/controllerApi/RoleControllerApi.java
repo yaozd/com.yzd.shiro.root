@@ -1,19 +1,20 @@
 package com.yzd.shiro.web.api.controllerApi;
-import java.util.Date;
+import java.util.ArrayList;
 
 import com.yzd.shiro.db.entity.enumExt.TbPublicEnum;
 import com.yzd.shiro.db.entity.table.TbRole;
 import com.yzd.shiro.db.entity.table.TbRolePermission;
+import com.yzd.shiro.db.entity.where.PageWhere;
 import com.yzd.shiro.service.inf.IRolePermissionServiceInf;
 import com.yzd.shiro.service.inf.IRoleServiceInf;
+import com.yzd.shiro.web.api.common.exceptionExt.CustomException;
 import com.yzd.shiro.web.api.model.request.role.AddEditRoleForm;
+import com.yzd.shiro.web.api.model.response.role.GetListRoleVM;
+import com.yzd.shiro.web.api.model.response.role.GetRoleVM;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -52,5 +53,28 @@ public class RoleControllerApi {
             iRolePermissionServiceInf.insertList(itemList4RolePermission);
         }
         return "role:edit-ok";
+    }
+    @ApiOperation(value = "getListRole-获得角色列表")
+    @GetMapping("getListRole")
+    public List<GetListRoleVM> getListRole() {
+        TbRole where=new TbRole();
+        where.setGmtIsDel(TbPublicEnum.gmtIsDel.NO.CODE);
+        List<TbRole> itemList4TbPermission = iRoleServiceInf.selectList(where, null, PageWhere.newPage(0, 500));
+        List<GetListRoleVM> itemList4GetListRoleVM = new ArrayList<>();
+        itemList4TbPermission.forEach(item -> itemList4GetListRoleVM.add(GetListRoleVM.toVM(item)));
+        return itemList4GetListRoleVM;
+    }
+    @ApiOperation(value = "getRole-获得角色")
+    @GetMapping("getRole")
+    public GetRoleVM getRole(Long id) {
+        TbRole item4Role = iRoleServiceInf.selectByPrimaryKey(id);
+        if (item4Role == null) {
+            throw new CustomException("没有找到id=[" + id + "]的资源");
+        }
+        TbRolePermission where=new TbRolePermission();
+        where.setRoleId(id);
+        where.setGmtIsDel(TbPublicEnum.gmtIsDel.NO.CODE);
+        List<TbRolePermission> itemList4RolePermission=iRolePermissionServiceInf.selectList(where, null, PageWhere.newPage(0, 500));
+        return GetRoleVM.toVM(item4Role,itemList4RolePermission);
     }
 }
