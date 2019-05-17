@@ -10,9 +10,9 @@ layui.use(['form'], function(){
 function submit4RoleFun() {
     alert(1);
     console.log($("#form4Role").serializeJson());
-    var item=$("#form4Role").serializeJson();
-    item.permIds=ViewUtil.getPermIds();
-    instance.post('/api/role/addEditPerm',item)
+    var param=$("#form4Role").serializeJson();
+    param.permIds=ViewUtil.getPermIds();
+    instance.post('/api/role/addEditRole',param)
         .then(function (response) {
             var result=response.data;
             if(result.code==200){
@@ -77,6 +77,6 @@ var ViewUtil={
             nodeIds.push(nodes[i].id);
         }
         var permIds= nodeIds.join(",");
-        return permIds;
+        return nodeIds;
     }
 };

@@ -65,6 +65,11 @@
             <scope>test</scope>
         </dependency>
         <!--========================================================-->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+        <!--========================================================-->
         <!-- devtools 热部署,必须在DEBUG模式下才生效 -->
         <!-- 程序打包时，不会打包devtools进去-->
         <dependency>
