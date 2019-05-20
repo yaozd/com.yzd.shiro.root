@@ -17,7 +17,6 @@ public class LoginForm {
     public static TbUser toEntity(LoginForm form) {
         TbUser tbUser = new TbUser();
         tbUser.setMobile(form.getName());
-        tbUser.setIsDel(TbPublicEnum.isDel.NO.CODE);
         return tbUser;
 
 

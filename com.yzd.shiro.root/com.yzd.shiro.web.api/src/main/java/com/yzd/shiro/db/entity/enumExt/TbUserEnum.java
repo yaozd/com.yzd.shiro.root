@@ -4,13 +4,13 @@ public interface TbUserEnum {
     /**
      * 是否在职
      */
-    enum isJob {
-        NO(false, "离职"),
-        YES(true, "正常");
+    enum jobStatus {
+        NO(1, "离职"),
+        YES(0, "在职");
 
-        public final Boolean CODE;
+        public final Integer CODE;
 
-        isJob(boolean code, String desc) {
+        jobStatus(Integer code, String desc) {
             this.CODE = code;
         }
     }

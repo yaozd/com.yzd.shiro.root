@@ -24,13 +24,12 @@ public class UserServiceImplTest extends BaseUnitTest {
         record.setMobile("15012345678");
         record.setPassword("123456");
         record.setInsertUid(0);
-        record.setInsertTime(new Date());
-        record.setUpdateTime(new Date());
-        record.setIsDel(TbPublicEnum.isDel.NO.CODE);
-        record.setIsJob(TbUserEnum.isJob.YES.CODE);
-        record.setMcode("");
-        record.setSendTime(new Date());
+        record.setInsertUid(0);
+        record.setJobStatus(TbUserEnum.jobStatus.YES.CODE);
         record.setVersion(0);
+        record.setGmtCreateTime(new Date());
+        record.setGmtUpdateTime(new Date());
+        record.setGmtIsDel(TbPublicEnum.gmtIsDel.NO.CODE);
         userServiceInf.insertSelective(record);
     }
 

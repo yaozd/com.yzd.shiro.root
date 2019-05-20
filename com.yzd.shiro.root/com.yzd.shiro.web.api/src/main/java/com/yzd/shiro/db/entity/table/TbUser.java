@@ -3,7 +3,7 @@ package com.yzd.shiro.db.entity.table;
 import java.util.Date;
 
 public class TbUser {
-    private Integer id;
+    private Long id;
 
     private String username;
 
@@ -15,25 +15,21 @@ public class TbUser {
 
     private Integer insertUid;
 
-    private Date insertTime;
-
-    private Date updateTime;
-
-    private Boolean isDel;
-
-    private Boolean isJob;
-
-    private String mcode;
-
-    private Date sendTime;
+    private Integer jobStatus;
 
     private Integer version;
 
-    public Integer getId() {
+    private Date gmtCreateTime;
+
+    private Date gmtUpdateTime;
+
+    private Integer gmtIsDel;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -77,52 +73,12 @@ public class TbUser {
         this.insertUid = insertUid;
     }
 
-    public Date getInsertTime() {
-        return insertTime;
+    public Integer getJobStatus() {
+        return jobStatus;
     }
 
-    public void setInsertTime(Date insertTime) {
-        this.insertTime = insertTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Boolean getIsDel() {
-        return isDel;
-    }
-
-    public void setIsDel(Boolean isDel) {
-        this.isDel = isDel;
-    }
-
-    public Boolean getIsJob() {
-        return isJob;
-    }
-
-    public void setIsJob(Boolean isJob) {
-        this.isJob = isJob;
-    }
-
-    public String getMcode() {
-        return mcode;
-    }
-
-    public void setMcode(String mcode) {
-        this.mcode = mcode == null ? null : mcode.trim();
-    }
-
-    public Date getSendTime() {
-        return sendTime;
-    }
-
-    public void setSendTime(Date sendTime) {
-        this.sendTime = sendTime;
+    public void setJobStatus(Integer jobStatus) {
+        this.jobStatus = jobStatus;
     }
 
     public Integer getVersion() {
@@ -131,5 +87,29 @@ public class TbUser {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public Date getGmtCreateTime() {
+        return gmtCreateTime;
+    }
+
+    public void setGmtCreateTime(Date gmtCreateTime) {
+        this.gmtCreateTime = gmtCreateTime;
+    }
+
+    public Date getGmtUpdateTime() {
+        return gmtUpdateTime;
+    }
+
+    public void setGmtUpdateTime(Date gmtUpdateTime) {
+        this.gmtUpdateTime = gmtUpdateTime;
+    }
+
+    public Integer getGmtIsDel() {
+        return gmtIsDel;
+    }
+
+    public void setGmtIsDel(Integer gmtIsDel) {
+        this.gmtIsDel = gmtIsDel;
     }
 }
