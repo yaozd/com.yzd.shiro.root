@@ -16,8 +16,8 @@
                 <table class="layui-table">
                     <thead>
                     <tr>
-                        <th>角色编号</th>
                         <th>角色名称</th>
+                        <th>角色编号</th>
                         <th>角色描述</th>
                         <th>添加时间</th>
                         <th width="88px;">操作</th>
@@ -25,13 +25,13 @@
                     </thead>
                     <tbody id="tbody4RoleList">
                     <tr v-for="item in reports">
-                        <td>{{item.roleCode}}</td>
                         <td>{{item.roleName}}</td>
+                        <td>{{item.roleCode}}</td>
                         <td>{{item.remark}}</td>
                         <td>{{item.gmtCreateTime}}</td>
                         <td>
                             <button class="layui-btn layui-btn-xs" @click="updateRoleVUE(item.id)">编辑</button>
-                            <button class="layui-btn layui-btn-danger layui-btn-xs" onclick="delRole(1)">删除</button>
+                            <button class="layui-btn layui-btn-danger layui-btn-xs" @click="delVUE(item.id,item.roleName)">删除</button>
                         </td>
                     </tr>
                     </tbody>

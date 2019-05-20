@@ -77,4 +77,21 @@ public class RoleControllerApi {
         List<TbRolePermission> itemList4RolePermission=iRolePermissionServiceInf.selectList(where, null, PageWhere.newPage(0, 500));
         return GetRoleVM.toVM(item4Role,itemList4RolePermission);
     }
+    @ApiOperation(value = "delRole-删除角色")
+    @PostMapping("delRole")
+    public String delRole(Long id) {
+        TbRole item4Role = iRoleServiceInf.selectByPrimaryKey(id);
+        if (item4Role == null) {
+            throw new CustomException("没有找到id=[" + id + "]的角色");
+        }
+        TbRole record4Role=new TbRole();
+        record4Role.setId(id);
+        record4Role.setGmtIsDel(TbPublicEnum.gmtIsDel.YES.CODE);
+        iRoleServiceInf.updateByPrimaryKeySelective(record4Role);
+        TbRolePermission record4RolePermission=new TbRolePermission();
+        record4RolePermission.setRoleId(id);
+        record4RolePermission.setGmtIsDel(TbPublicEnum.gmtIsDel.YES.CODE);
+        iRolePermissionServiceInf.updateByRoleIdSelective(record4RolePermission);
+        return "删除成功";
+    }
 }

@@ -117,8 +117,8 @@
     //$.pjax.defaults.timeout = 5000;
     //Pjax设置为不缓存，提高数据实时性
     $.pjax.defaults.maxCacheLength = 0;
-    //关闭ajax缓存
-    //$.ajaxSettings.cache=false;
+    //关闭ajax缓存--避免from disk cache问题
+    $.ajaxSettings.cache=false;
     //$.ajaxSettings.async=true;
     $(document).pjax('[data-pjax] a, a[data-pjax]', '#pjax-container');
     $.pjax({url: openUrlFun(),container: '#pjax-container'});
