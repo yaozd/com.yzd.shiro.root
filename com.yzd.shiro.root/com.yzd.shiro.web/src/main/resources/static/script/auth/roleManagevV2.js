@@ -41,6 +41,10 @@ var ViewUtil = {
         $("#updateRoleDiv").css("display", "none");
         $("#roleListLi").addClass("layui-this");
         $("#roleListDiv").addClass("layui-show");
+        //
+        RequestUtil.initDataListFun();
+        $("#setRoleDiv").html("");
+        $("#updateRoleDiv").html("");
     },
     toShowSetRoleLi: function () {
         $("#roleListLi").removeClass("layui-this");
@@ -54,12 +58,13 @@ var ViewUtil = {
         $("#updateRoleDiv").html("");
         $("#setRoleDiv").html($("#addEditFormTpl").html());
     },
-    toAlertSuccess: function () {
+    toAlertSuccess: function (title) {
         //弹出层:无关闭按钮
-        layer.alert("操作成功！", {closeBtn: 0}, function () {
+        layer.alert(title, {closeBtn: 0}, function () {
             layer.closeAll();
             //加载load方法
-            window.location.reload();
+            //window.location.reload();
+            ViewUtil.toShowRoleListLi();
         });
     },
     toTreeData4AddRole: function (itemList) {
@@ -135,7 +140,7 @@ var RequestUtil = {
         instance.post('/api/role/addEditRole', params).then(function (response) {
             var result = response.data;
             if (result.code == 200) {
-                ViewUtil.toAlertSuccess();
+                ViewUtil.toAlertSuccess("操作成功！");
                 return;
             }
             layer.alert(result.data);
@@ -199,12 +204,7 @@ var RequestUtil = {
             .then(function (response) {
                 var result=response.data;
                 if(result.code==200){
-                    //回调弹框
-                    layer.alert("删除成功！",function(){
-                        layer.closeAll();
-                        //加载load方法
-                        location.reload();;//自定义
-                    });
+                    ViewUtil.toAlertSuccess("删除成功！");
                     return;
                 }
                 layer.closeAll();
@@ -212,6 +212,7 @@ var RequestUtil = {
             });
     }
 };
+//VUE 放在代码的最后面
 var vm = new Vue({
     el: "#tbody4RoleList",
     data: {reports: []},

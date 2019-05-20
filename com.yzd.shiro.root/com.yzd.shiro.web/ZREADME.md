@@ -179,3 +179,5 @@ v-html用于带有标签的处理
 ```
 - []()
 
+###　8.VUE入门到实战--Vue实例和模板语法
+- [VUE入门到实战--Vue实例和模板语法](https://blog.csdn.net/weixin_37968345/article/details/82978082)
