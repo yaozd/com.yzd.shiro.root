@@ -10,6 +10,11 @@
 ### 2.测试导航-Admin
 - [http://localhost:9091/admin/admin.html](http://localhost:9091/admin/admin.html)
 - [http://localhost:9091/admin/home.html](http://localhost:9091/admin/home.html)
+- [http://localhost:9091/admin/auth/roleManageV2.html](http://localhost:9091/admin/auth/roleManageV2.html)
+
+### 2.1 推荐参考页面
+- [roleManageV2.html](http://localhost:9091/admin/auth/roleManageV2.html)
+- [permList4VUE.html](http://localhost:9091/admin/auth/permList4VUE.html)
 
 ### 2.Layui前端布局参考
 -  manage-使用springboot+mybatis+layui+shiro+thymeleaf开发的后台权限管理系统（使用springboot+mybatis+layui+shiro+thymeleaf）
@@ -173,3 +178,4 @@ v-text用于单个标签
 v-html用于带有标签的处理
 ```
 - []()
+
