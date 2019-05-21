@@ -90,6 +90,16 @@ var ViewUtil = {
             }
         };
         $.fn.zTree.init($("#ztree4RoleList"), setting, treeData);
+    },
+    getRoleId: function () {
+        var treeObj = $.fn.zTree.getZTreeObj("ztree4RoleList");
+        var nodes = treeObj.getCheckedNodes(true);
+        var nodeIds = [];
+        for (var i = 0; i < nodes.length; i++) {
+            nodeIds.push(nodes[i].id);
+        }
+        //var permIds= nodeIds.join(",");
+        return nodeIds;
     }
 };
 //
@@ -126,7 +136,7 @@ var RequestUtil = {
     },
     userSubmitFun:function () {
         var params = $("#userForm").serializeJson();
-        //params.permIds = ViewUtil.getRoleIds();
+        params.roleIds = ViewUtil.getRoleId();
         instance.post('/api/user/addEditUser', params).then(function (response) {
             var result = response.data;
             if (result.code == 200) {

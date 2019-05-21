@@ -102,7 +102,10 @@
     <where>
       <include refid="Query_Where_Clause" />
       <if test="extendWhere != null" >
-
+        <if test="extendWhere.userId4InList != null">
+          AND user_id IN
+          <foreach item="item" index="index" collection="extendWhere.userId4InList" open="(" separator="," close=")"> #{item}</foreach>
+        </if>
       </if>
     </where>
   </sql>
