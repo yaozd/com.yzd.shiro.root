@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50725
 File Encoding         : 65001
 
-Date: 2019-05-17 09:11:00
+Date: 2019-05-21 16:47:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47,7 +47,7 @@ CREATE TABLE `tb_role` (
   `gmt_update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `gmt_is_del` int(4) DEFAULT '0' COMMENT '是否删除：0=正常、1=已删',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- ----------------------------
 -- Table structure for tb_role_permission
@@ -61,7 +61,7 @@ CREATE TABLE `tb_role_permission` (
   `gmt_create_time` datetime DEFAULT NULL COMMENT '添加时间',
   `gmt_is_del` int(4) DEFAULT '0' COMMENT '是否删除：0=正常、1=已删',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='角色与资源关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8 COMMENT='角色与资源关联表';
 
 -- ----------------------------
 -- Table structure for tb_user
@@ -80,4 +80,18 @@ CREATE TABLE `tb_user` (
   `gmt_update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `gmt_is_del` int(4) DEFAULT '0' COMMENT '是否删除：0=正常、1=已删',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+-- ----------------------------
+-- Table structure for tb_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_user_role`;
+CREATE TABLE `tb_user_role` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
+  `version` varchar(50) NOT NULL COMMENT '数据版本：目前使用当前创建时间',
+  `gmt_create_time` datetime DEFAULT NULL COMMENT '添加时间',
+  `gmt_is_del` int(4) DEFAULT '0' COMMENT '是否删除：0=正常、1=已删',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8 COMMENT='用户与角色关联表';

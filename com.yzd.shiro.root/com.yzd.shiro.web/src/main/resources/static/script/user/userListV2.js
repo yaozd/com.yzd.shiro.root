@@ -31,6 +31,7 @@ layui.use(['form', 'laydate', 'table'], function () {
     form.on('submit(userSubmit)', function (data) {
         //重新加载table
         alert(3);
+        RequestUtil.userSubmitFun();
         return false;
     });
 });
@@ -79,6 +80,7 @@ var ViewUtil = {
         var setting = {
             check: {
                 enable: true,
+                chkStyle: "radio", radioType: "level",
                 chkboxType: {"Y": "p", "N": "s"}
             },
             data: {
@@ -121,6 +123,18 @@ var RequestUtil = {
                     ViewUtil.initZTree(treeData);
                 }
             });
+    },
+    userSubmitFun:function () {
+        var params = $("#userForm").serializeJson();
+        //params.permIds = ViewUtil.getRoleIds();
+        instance.post('/api/user/addEditUser', params).then(function (response) {
+            var result = response.data;
+            if (result.code == 200) {
+                ViewUtil.toAlertSuccess("操作成功！");
+                return;
+            }
+            layer.alert(result.data);
+        });
     }
 };
 //VUE 放在代码的最后面

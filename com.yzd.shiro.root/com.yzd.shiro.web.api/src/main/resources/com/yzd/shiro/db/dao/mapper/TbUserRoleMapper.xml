@@ -82,13 +82,12 @@
   <!--自定义脚本////////////////////////////////////////////////////////////////////////////////////////////////-->
   <sql id="Query_Where_Clause" >
     <if test="pojo != null" >
-      <if test="pojo.id != null"> AND id = #{pojo.id} </if>
-      <if test="pojo.roleName != null"> AND role_name = #{pojo.roleName} </if>
-      <if test="pojo.remark != null"> AND remark = #{pojo.remark} </if>
-      <if test="pojo.roleCode != null"> AND role_code = #{pojo.roleCode} </if>
-      <if test="pojo.gmtCreateTime != null"> AND gmt_create_time = #{pojo.gmtCreateTime} </if>
-      <if test="pojo.gmtUpdateTime != null"> AND gmt_update_time = #{pojo.gmtUpdateTime} </if>
-      <if test="pojo.gmtIsDel != null"> AND gmt_is_del = #{pojo.gmtIsDel} </if>
+      <if test="pojo.id != null"> id = #{pojo.id}, </if>
+      <if test="pojo.userId != null"> user_id = #{pojo.userId}, </if>
+      <if test="pojo.roleId != null"> role_id = #{pojo.roleId}, </if>
+      <if test="pojo.version != null"> version = #{pojo.version}, </if>
+      <if test="pojo.gmtCreateTime != null"> gmt_create_time = #{pojo.gmtCreateTime}, </if>
+      <if test="pojo.gmtIsDel != null"> gmt_is_del = #{pojo.gmtIsDel} </if>
     </if>
   </sql>
   <sql id="Query_Where_ClauseForPageWhere">
