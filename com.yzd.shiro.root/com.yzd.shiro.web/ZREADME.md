@@ -112,6 +112,10 @@
     var options = { jsonValue: dd, isDebug: false };
     $("#UserForm_Modify").initForm(options);
     ```
+- [前台input如果什么都不输入的话，后台获取到的是空字符串，如何让让变成null呀](http://www.caotama.com/62749.html)
+```
+建议使用Google的guava库里边strings下有emptyToNull方法
+```
 - []()
 
 ### 3.Thymeleaf-参考：

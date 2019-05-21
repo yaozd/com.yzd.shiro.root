@@ -13,11 +13,7 @@ public class GetListUserVM {
 
     private String mobile;
 
-    private String email;
-
-    private String password;
-
-    private Integer insertUid;
+    private String roleName;
 
     private Integer jobStatus;
 
@@ -26,9 +22,6 @@ public class GetListUserVM {
         getListUserVM.setId(item.getId());
         getListUserVM.setUsername(item.getUsername());
         getListUserVM.setMobile(item.getMobile());
-        getListUserVM.setEmail(item.getEmail());
-        getListUserVM.setPassword(item.getPassword());
-        getListUserVM.setInsertUid(item.getInsertUid());
         getListUserVM.setJobStatus(item.getJobStatus());
         return getListUserVM;
     }

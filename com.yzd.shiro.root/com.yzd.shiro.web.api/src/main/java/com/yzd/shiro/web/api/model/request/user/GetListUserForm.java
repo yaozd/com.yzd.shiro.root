@@ -3,6 +3,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import com.google.common.base.Strings;
 import com.yzd.shiro.db.entity.enumExt.TbPublicEnum;
 import com.yzd.shiro.db.entity.table.TbUser;
 import com.yzd.shiro.db.entity.where.TbUserWhere;
@@ -20,8 +21,8 @@ public class GetListUserForm {
 
     public static TbUser toEntity(GetListUserForm form) {
         TbUser tbUser = new TbUser();
-        tbUser.setUsername(form.getUsername());
-        tbUser.setMobile(form.getMobile());
+        tbUser.setUsername(Strings.emptyToNull(form.getUsername()));
+        tbUser.setMobile(Strings.emptyToNull(form.getMobile()));
         tbUser.setGmtIsDel(TbPublicEnum.gmtIsDel.NO.CODE);
         return tbUser;
     }

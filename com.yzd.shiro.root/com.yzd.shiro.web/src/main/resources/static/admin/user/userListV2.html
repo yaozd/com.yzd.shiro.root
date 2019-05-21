@@ -1,5 +1,8 @@
 <script src="/admin/jquery.pjax.extend.js"></script>
 <!--//自定义html-->
+<script src="/js/jquery.form.extend.js"></script>
+<link rel="stylesheet" href="/ztree/css/zTreeStyle/zTreeStyle.css">
+<script src="/ztree/jquery.ztree.all.js"></script>
 <form id="userSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
@@ -8,7 +11,8 @@
         </div>
         <label class="layui-form-label">手机号</label>
         <div class="layui-input-inline">
-            <input id="umobile" name="mobile" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+            <input id="umobile" name="mobile" autocomplete="off" class="layui-input" type="text"
+                   onkeyup="this.value=this.value.replace(/\D/g,'')"
                    onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
         </div>
     </div>
@@ -17,14 +21,16 @@
         <div class="layui-inline">
             <label class="layui-form-label">添加时间</label>
             <div class="layui-input-inline" style="width: 175px;">
-                <input  name="insertTimeStart" id="insertTimeStart" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                <input name="insertTimeStart" id="insertTimeStart" placeholder="yyyy-MM-dd" autocomplete="off"
+                       class="layui-input" type="text"/>
             </div>
             <div class="layui-form-mid">-</div>
             <div class="layui-input-inline" style="width: 175px;">
-                <input name="insertTimeEnd" id="insertTimeEnd" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                <input name="insertTimeEnd" id="insertTimeEnd" placeholder="yyyy-MM-dd" autocomplete="off"
+                       class="layui-input" type="text"/>
             </div>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            <button class="layui-btn"  lay-submit="" lay-filter="searchSubmit">提交</button>
+            <button class="layui-btn" lay-submit="" lay-filter="searchSubmit">提交</button>
         </div>
     </div>
 </form>
@@ -33,7 +39,325 @@
 <hr class="layui-bg-black"/>
 
 <button class="layui-btn layui-btn-normal" id="addUserBtn">开通用户</button>
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>用户名</th>
+        <th>手机号</th>
+        <th>角色名称</th>
+        <th>添加时间</th>
+        <th>是否在职</th>
+        <th width="88px;">操作</th>
+    </tr>
+    </thead>
+    <tbody id="tbody4RoleList">
+    <tr v-for="item in reports">
+        <td>{{item.id}}</td>
+        <td>{{item.username}}</td>
+        <td>{{item.mobile}}</td>
+        <td>{{item.roleName}}</td>
+        <td>{{item.roleName}}</td>
+        <td>{{item.remark}}</td>
+        <td>{{item.gmtCreateTime}}</td>
+        <td>
+            <button class="layui-btn layui-btn-xs" @click="updateRoleVUE(item.id)">编辑</button>
+            <button class="layui-btn layui-btn-danger layui-btn-xs" onclick="delRole(1)">删除</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table id="uesrList" lay-filter="userTable"></table>
+<div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-1" style=" ">
+    <div class="layui-table-box">
+        <div class="layui-table-header">
+            <table cellspacing="0" cellpadding="0" border="0" class="layui-table">
+                <thead>
+                <tr>
+                    <th data-field="0" data-unresize="true">
+                        <div class="layui-table-cell laytable-cell-1-0 laytable-cell-numbers"><span></span></div>
+                    </th>
+                    <th data-field="id" data-unresize="true">
+                        <div class="layui-table-cell laytable-cell-1-id"><span>ID</span><span
+                                class="layui-table-sort layui-inline"><i
+                                class="layui-edge layui-table-sort-asc"></i><i
+                                class="layui-edge layui-table-sort-desc"></i></span></div>
+                    </th>
+                    <th data-field="username">
+                        <div class="layui-table-cell laytable-cell-1-username"><span>用户名</span></div>
+                    </th>
+                    <th data-field="mobile">
+                        <div class="layui-table-cell laytable-cell-1-mobile"><span>手机号</span></div>
+                    </th>
+                    <th data-field="email">
+                        <div class="layui-table-cell laytable-cell-1-email"><span>邮箱</span></div>
+                    </th>
+                    <th data-field="roleNames" data-minwidth="80">
+                        <div class="layui-table-cell laytable-cell-1-roleNames"><span>角色名称</span></div>
+                    </th>
+                    <th data-field="insertTime">
+                        <div class="layui-table-cell laytable-cell-1-insertTime"><span>添加时间</span></div>
+                    </th>
+                    <th data-field="isJob">
+                        <div class="layui-table-cell laytable-cell-1-isJob" align="center"><span>是否在职</span></div>
+                    </th>
+                    <th data-field="8">
+                        <div class="layui-table-cell laytable-cell-1-8" align="center"><span>操作</span></div>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="layui-table-body layui-table-main">
+            <table cellspacing="0" cellpadding="0" border="0" class="layui-table">
+                <tbody>
+                <tr data-index="0" class="">
+                    <td data-field="0">
+                        <div class="layui-table-cell laytable-cell-1-0 laytable-cell-numbers">1</div>
+                    </td>
+                    <td data-field="id">
+                        <div class="layui-table-cell laytable-cell-1-id">27</div>
+                    </td>
+                    <td data-field="username">
+                        <div class="layui-table-cell laytable-cell-1-username">ppp12</div>
+                    </td>
+                    <td data-field="mobile">
+                        <div class="layui-table-cell laytable-cell-1-mobile">12826265353</div>
+                    </td>
+                    <td data-field="email">
+                        <div class="layui-table-cell laytable-cell-1-email"></div>
+                    </td>
+                    <td data-field="roleNames" data-minwidth="80">
+                        <div class="layui-table-cell laytable-cell-1-roleNames">客维员</div>
+                    </td>
+                    <td data-field="insertTime">
+                        <div class="layui-table-cell laytable-cell-1-insertTime">2018-05-02 16:56:41</div>
+                    </td>
+                    <td data-field="isJob" align="center" data-content="">
+                        <div class="layui-table-cell laytable-cell-1-isJob"><input type="checkbox" name="ppp12_19"
+                                                                                   value="27" lay-skin="switch"
+                                                                                   lay-text="在职|离职"
+                                                                                   lay-filter="isJobTpl"
+                                                                                   checked="checked">
+                            <div class="layui-unselect layui-form-switch layui-form-onswitch" lay-skin="_switch">
+                                <em>在职</em><i></i></div>
+                        </div>
+                    </td>
+                    <td data-field="8" align="center" data-off="true">
+                        <div class="layui-table-cell laytable-cell-1-8"><a class="layui-btn layui-btn-xs"
+                                                                           lay-event="edit">编辑</a> <a
+                                class="layui-btn layui-btn-normal layui-btn-xs" lay-event="recover">恢复</a></div>
+                    </td>
+                </tr>
+                <tr data-index="1" class="">
+                    <td data-field="0">
+                        <div class="layui-table-cell laytable-cell-1-0 laytable-cell-numbers">2</div>
+                    </td>
+                    <td data-field="id">
+                        <div class="layui-table-cell laytable-cell-1-id">26</div>
+                    </td>
+                    <td data-field="username">
+                        <div class="layui-table-cell laytable-cell-1-username">xxx</div>
+                    </td>
+                    <td data-field="mobile">
+                        <div class="layui-table-cell laytable-cell-1-mobile">12923235959</div>
+                    </td>
+                    <td data-field="email">
+                        <div class="layui-table-cell laytable-cell-1-email"></div>
+                    </td>
+                    <td data-field="roleNames" data-minwidth="80">
+                        <div class="layui-table-cell laytable-cell-1-roleNames">客维员</div>
+                    </td>
+                    <td data-field="insertTime">
+                        <div class="layui-table-cell laytable-cell-1-insertTime">2018-05-02 16:55:35</div>
+                    </td>
+                    <td data-field="isJob" align="center" data-content="">
+                        <div class="layui-table-cell laytable-cell-1-isJob"><input type="checkbox" name="xxx_5"
+                                                                                   value="26" lay-skin="switch"
+                                                                                   lay-text="在职|离职"
+                                                                                   lay-filter="isJobTpl"
+                                                                                   checked="checked">
+                            <div class="layui-unselect layui-form-switch layui-form-onswitch" lay-skin="_switch">
+                                <em>在职</em><i></i></div>
+                        </div>
+                    </td>
+                    <td data-field="8" align="center" data-off="true">
+                        <div class="layui-table-cell laytable-cell-1-8"><a class="layui-btn layui-btn-xs"
+                                                                           lay-event="edit">编辑</a> <a
+                                class="layui-btn layui-btn-normal layui-btn-xs" lay-event="recover">恢复</a></div>
+                    </td>
+                </tr>
+                <tr data-index="2" class="">
+                    <td data-field="0">
+                        <div class="layui-table-cell laytable-cell-1-0 laytable-cell-numbers">3</div>
+                    </td>
+                    <td data-field="id">
+                        <div class="layui-table-cell laytable-cell-1-id">25</div>
+                    </td>
+                    <td data-field="username">
+                        <div class="layui-table-cell laytable-cell-1-username">fast</div>
+                    </td>
+                    <td data-field="mobile">
+                        <div class="layui-table-cell laytable-cell-1-mobile">12312312312</div>
+                    </td>
+                    <td data-field="email">
+                        <div class="layui-table-cell laytable-cell-1-email"></div>
+                    </td>
+                    <td data-field="roleNames" data-minwidth="80">
+                        <div class="layui-table-cell laytable-cell-1-roleNames">高级管理员</div>
+                    </td>
+                    <td data-field="insertTime">
+                        <div class="layui-table-cell laytable-cell-1-insertTime">2018-04-28 09:37:32</div>
+                    </td>
+                    <td data-field="isJob" align="center" data-content="">
+                        <div class="layui-table-cell laytable-cell-1-isJob"><input type="checkbox" name="fast_0"
+                                                                                   value="25" lay-skin="switch"
+                                                                                   lay-text="在职|离职"
+                                                                                   lay-filter="isJobTpl"
+                                                                                   checked="checked">
+                            <div class="layui-unselect layui-form-switch layui-form-onswitch" lay-skin="_switch">
+                                <em>在职</em><i></i></div>
+                        </div>
+                    </td>
+                    <td data-field="8" align="center" data-off="true">
+                        <div class="layui-table-cell laytable-cell-1-8"><a class="layui-btn layui-btn-xs"
+                                                                           lay-event="edit">编辑</a> <a
+                                class="layui-btn layui-btn-normal layui-btn-xs" lay-event="recover">恢复</a></div>
+                    </td>
+                </tr>
+                <tr data-index="3">
+                    <td data-field="0">
+                        <div class="layui-table-cell laytable-cell-1-0 laytable-cell-numbers">4</div>
+                    </td>
+                    <td data-field="id">
+                        <div class="layui-table-cell laytable-cell-1-id">24</div>
+                    </td>
+                    <td data-field="username">
+                        <div class="layui-table-cell laytable-cell-1-username">eee</div>
+                    </td>
+                    <td data-field="mobile">
+                        <div class="layui-table-cell laytable-cell-1-mobile">12536369898</div>
+                    </td>
+                    <td data-field="email">
+                        <div class="layui-table-cell laytable-cell-1-email"></div>
+                    </td>
+                    <td data-field="roleNames" data-minwidth="80">
+                        <div class="layui-table-cell laytable-cell-1-roleNames">客维员</div>
+                    </td>
+                    <td data-field="insertTime">
+                        <div class="layui-table-cell laytable-cell-1-insertTime">2018-04-26 18:37:34</div>
+                    </td>
+                    <td data-field="isJob" align="center" data-content="">
+                        <div class="layui-table-cell laytable-cell-1-isJob"><input type="checkbox" name="eee_0"
+                                                                                   value="24" lay-skin="switch"
+                                                                                   lay-text="在职|离职"
+                                                                                   lay-filter="isJobTpl"
+                                                                                   checked="checked">
+                            <div class="layui-unselect layui-form-switch layui-form-onswitch" lay-skin="_switch">
+                                <em>在职</em><i></i></div>
+                        </div>
+                    </td>
+                    <td data-field="8" align="center" data-off="true">
+                        <div class="layui-table-cell laytable-cell-1-8"><a class="layui-btn layui-btn-xs"
+                                                                           lay-event="edit">编辑</a> <a
+                                class="layui-btn layui-btn-normal layui-btn-xs" lay-event="recover">恢复</a></div>
+                    </td>
+                </tr>
+                <tr data-index="4" class="">
+                    <td data-field="0">
+                        <div class="layui-table-cell laytable-cell-1-0 laytable-cell-numbers">5</div>
+                    </td>
+                    <td data-field="id">
+                        <div class="layui-table-cell laytable-cell-1-id">23</div>
+                    </td>
+                    <td data-field="username">
+                        <div class="layui-table-cell laytable-cell-1-username">bbb1</div>
+                    </td>
+                    <td data-field="mobile">
+                        <div class="layui-table-cell laytable-cell-1-mobile">10222224564</div>
+                    </td>
+                    <td data-field="email">
+                        <div class="layui-table-cell laytable-cell-1-email"></div>
+                    </td>
+                    <td data-field="roleNames" data-minwidth="80">
+                        <div class="layui-table-cell laytable-cell-1-roleNames">经理</div>
+                    </td>
+                    <td data-field="insertTime">
+                        <div class="layui-table-cell laytable-cell-1-insertTime">2018-04-26 14:36:30</div>
+                    </td>
+                    <td data-field="isJob" align="center" data-content="">
+                        <div class="layui-table-cell laytable-cell-1-isJob"><input type="checkbox" name="bbb1_0"
+                                                                                   value="23" lay-skin="switch"
+                                                                                   lay-text="在职|离职"
+                                                                                   lay-filter="isJobTpl"
+                                                                                   checked="checked">
+                            <div class="layui-unselect layui-form-switch layui-form-onswitch" lay-skin="_switch">
+                                <em>在职</em><i></i></div>
+                        </div>
+                    </td>
+                    <td data-field="8" align="center" data-off="true">
+                        <div class="layui-table-cell laytable-cell-1-8"><a class="layui-btn layui-btn-xs"
+                                                                           lay-event="edit">编辑</a> <a
+                                class="layui-btn layui-btn-normal layui-btn-xs" lay-event="recover">恢复</a></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--添加或编辑用户-->
+<div class="layer_self_wrap" id="setUser" style="width:500px;display:none;">
+    <form id="userForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+        <input id="pageNum" type="hidden" name="pageNum"/>
+        <input id="roleIds" type="hidden" name="roleIds"/>
+        <input id="id" type="hidden" name="id"/>
+        <input id="version" type="hidden" name="version"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input id="username" name="username" lay-verify="required" autocomplete="off" class="layui-input"
+                       type="text"/>
+            </div>
+        </div>
 
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号</label>
+            <div class="layui-input-inline">
+                <input id="mobile" name="mobile" lay-verify="required" autocomplete="off" class="layui-input"
+                       type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                       onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-inline">
+                <input id="email" name="email" lay-verify="required | email" autocomplete="off" class="layui-input"
+                       type="text"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-inline">
+                <input id="password" name="password" autocomplete="off" class="layui-input" type="password"
+                       placeholder="默认密码：654321"/>
+            </div>
+            <div class="layui-form-mid layui-word-aux">请填写6位以上的密码</div>
+        </div>
 
+        <div class="layui-form-item">
+            <label class="layui-form-label">授予角色</label>
+            <div class="layui-input-block">
+                <ul id="ztree4RoleList" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left: 10px;">
+                <button class="layui-btn" lay-submit="" lay-filter="userSubmit">提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
 <!-- 自定义脚本 -->
 <script src="/script/user/userListV2.js"></script>

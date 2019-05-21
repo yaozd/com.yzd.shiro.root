@@ -79,4 +79,44 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!--自定义脚本////////////////////////////////////////////////////////////////////////////////////////////////-->
+  <sql id="Query_Where_Clause" >
+    <if test="pojo != null" >
+      <if test="pojo.id != null"> AND id = #{pojo.id} </if>
+      <if test="pojo.roleName != null"> AND role_name = #{pojo.roleName} </if>
+      <if test="pojo.remark != null"> AND remark = #{pojo.remark} </if>
+      <if test="pojo.roleCode != null"> AND role_code = #{pojo.roleCode} </if>
+      <if test="pojo.gmtCreateTime != null"> AND gmt_create_time = #{pojo.gmtCreateTime} </if>
+      <if test="pojo.gmtUpdateTime != null"> AND gmt_update_time = #{pojo.gmtUpdateTime} </if>
+      <if test="pojo.gmtIsDel != null"> AND gmt_is_del = #{pojo.gmtIsDel} </if>
+    </if>
+  </sql>
+  <sql id="Query_Where_ClauseForPageWhere">
+    <if test="pageWhere != null">limit #{pageWhere.begin},#{pageWhere.size}</if>
+  </sql>
+  <sql id="Query_Where_ClauseForPojo" >
+    <where>
+      <include refid="Query_Where_Clause" />
+    </where>
+  </sql>
+  <sql id="Query_Where_ClauseForExtendWhere" >
+    <where>
+      <include refid="Query_Where_Clause" />
+      <if test="extendWhere != null" >
+
+      </if>
+    </where>
+  </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM tb_user_role
+    <include refid="Query_Where_ClauseForExtendWhere" />
+    ORDER BY id
+    <include refid="Query_Where_ClauseForPageWhere" />
+  </select>
+  <select id="selectCount" resultType="java.lang.Long">
+    SELECT COUNT(*)
+    FROM tb_user_role
+    <include refid="Query_Where_ClauseForExtendWhere" />
+  </select>
 </mapper>
