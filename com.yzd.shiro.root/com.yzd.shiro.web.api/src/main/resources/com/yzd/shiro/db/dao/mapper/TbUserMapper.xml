@@ -159,6 +159,8 @@
       <include refid="Query_Where_Clause" />
       <if test="extendWhere != null" >
         <if test="extendWhere.username4LikeRight != null"> AND username LIKE CONCAT(#{extendWhere.username4LikeRight},'%' ) </if>
+        <if test="extendWhere.gmtCreateTime4Start != null"> AND gmt_create_time  <![CDATA[ >= ]]> #{extendWhere.gmtCreateTime4Start} </if>
+        <if test="extendWhere.gmtCreateTime4End != null"> AND gmt_create_time <![CDATA[ <= ]]> #{extendWhere.gmtCreateTime4End} </if>
       </if>
     </where>
   </sql>

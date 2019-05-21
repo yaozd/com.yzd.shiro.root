@@ -70,6 +70,16 @@
             <artifactId>joda-time</artifactId>
         </dependency>
         <!--========================================================-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <!--========================================================-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <!--========================================================-->
         <!-- devtools 热部署,必须在DEBUG模式下才生效 -->
         <!-- 程序打包时，不会打包devtools进去-->
         <dependency>
