@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <div @click="handleBtnClick">
+        {{message}}
+    </div>
+    <hr>
+    <p>component通过模板template方式整理代码，使代码变的更加清晰易读</p>
+    <p>component参考传递：（:data="message"）</p>
+    <item :data="message"></item>
+</div>
+<script type="text/template" id="tpl">
+    <div> {{data}} </div>
+</script>
+<script>
+    Vue.component("item", {
+        template: "#tpl",
+        props:["data"]
+    })
+    var vm = new Vue({
+        el: '#root',
+        data: {
+            message:'hello world',
+        },
+        methods: {
+            handleBtnClick: function() {
+                alert('hello');
+            }
+        }
+    })
+</script>
+</body>
+</html>
