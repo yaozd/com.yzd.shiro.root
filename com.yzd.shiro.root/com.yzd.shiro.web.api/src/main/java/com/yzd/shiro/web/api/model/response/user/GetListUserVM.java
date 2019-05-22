@@ -3,6 +3,7 @@ package com.yzd.shiro.web.api.model.response.user;
 import com.yzd.shiro.db.entity.table.TbRole;
 import com.yzd.shiro.db.entity.table.TbUser;
 import com.yzd.shiro.db.entity.table.TbUserRole;
+import com.yzd.shiro.web.api.utils.dateExt.DateUtil2;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,8 @@ public class GetListUserVM {
 
     private String roleName;
 
+    private String createTime;
+
     private Long roleId;
 
     private Integer jobStatus;
@@ -30,6 +33,8 @@ public class GetListUserVM {
         getListUserVM.setUsername(item.getUsername());
         getListUserVM.setMobile(item.getMobile());
         getListUserVM.setJobStatus(item.getJobStatus());
+        String createTime=DateUtil2.getDateStr(item.getGmtCreateTime(),"yyyy-MM-dd HH:mm:ss");
+        getListUserVM.setCreateTime(createTime);
         return getListUserVM;
     }
 

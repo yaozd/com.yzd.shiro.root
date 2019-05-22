@@ -48,7 +48,7 @@
         <th>角色名称</th>
         <th>添加时间</th>
         <th>是否在职</th>
-        <th width="88px;">操作</th>
+        <th>操作</th>
     </tr>
     </thead>
     <tbody id="tbody4RoleList">
@@ -57,9 +57,8 @@
         <td>{{item.username}}</td>
         <td>{{item.mobile}}</td>
         <td>{{item.roleName}}</td>
-        <td>{{item.roleName}}</td>
-        <td>{{item.remark}}</td>
-        <td>{{item.gmtCreateTime}}</td>
+        <td>{{item.createTime}}</td>
+        <td>{{item.jobStatus}}</td>
         <td>
             <button class="layui-btn layui-btn-xs" @click="updateRoleVUE(item.id)">编辑</button>
             <button class="layui-btn layui-btn-danger layui-btn-xs" onclick="delRole(1)">删除</button>

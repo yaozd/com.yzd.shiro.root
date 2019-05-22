@@ -15,6 +15,7 @@ import com.yzd.shiro.service.inf.IUserServiceInf;
 import com.yzd.shiro.web.api.model.request.user.AddEditUserForm;
 import com.yzd.shiro.web.api.model.request.user.GetListUserForm;
 import com.yzd.shiro.web.api.model.response.user.GetListUserVM;
+import com.yzd.shiro.web.api.utils.optionalExt.OptionalUtil2;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -67,21 +68,24 @@ public class UserControllerApi {
         //
         List<GetListUserVM> itemList4GetListUerVM = new ArrayList<>();
         itemList4TbUser.forEach(item -> itemList4GetListUerVM.add(GetListUserVM.toVM(item)));
+        if(itemList4GetListUerVM.isEmpty()){
+            return itemList4GetListUerVM;
+        }
         //
-        List<Long> where4UserId = itemList4TbUser.stream().map(TbUser::getId).distinct().collect(Collectors.toList());
+        List<Long> where4UserId = itemList4TbUser.stream().map(TbUser::getId).collect(Collectors.toList());
         TbUserRole where4UserRole = new TbUserRole();
         where4UserRole.setGmtIsDel(TbPublicEnum.gmtIsDel.NO.CODE);
         TbUserRoleWhere extendWhere4UserRole = new TbUserRoleWhere();
-        extendWhere4UserRole.setUserId4InList(where4UserId);
+        extendWhere4UserRole.setUserId4InList(OptionalUtil2.emptyToNull(where4UserId));
         List<TbUserRole> itemList4TbUserRole = iUserRoleServiceInf.selectList(where4UserRole, extendWhere4UserRole, PageWhere.newPage(0, 50));
         //
         itemList4GetListUerVM.forEach(item->GetListUserVM.toSetRoleId(item,itemList4TbUserRole));
         //
-        List<Long>where4RoleId=itemList4TbUserRole.stream().map(TbUserRole::getRoleId).collect(Collectors.toList());
+        List<Long>where4RoleId=itemList4TbUserRole.stream().map(TbUserRole::getRoleId).distinct().collect(Collectors.toList());
         TbRole where4TbRole=new TbRole();
         where4TbRole.setGmtIsDel(TbPublicEnum.gmtIsDel.NO.CODE);
         TbRoleWhere extendWhere4Role=new TbRoleWhere();
-        extendWhere4Role.setRoleId4InList(where4RoleId);
+        extendWhere4Role.setRoleId4InList(OptionalUtil2.emptyToNull(where4RoleId));
         List<TbRole> itemList4TbRole=iRoleServiceInf.selectList(where4TbRole,extendWhere4Role,PageWhere.newPage(0,50));
         //
         itemList4GetListUerVM.forEach(item->GetListUserVM.toSetRoleName(item,itemList4TbRole));
