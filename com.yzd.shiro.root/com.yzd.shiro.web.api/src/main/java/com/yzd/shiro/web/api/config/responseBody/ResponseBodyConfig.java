@@ -1,5 +1,6 @@
 package com.yzd.shiro.web.api.config.responseBody;
 
+import com.yzd.shiro.web.api.mock.MockController;
 import com.yzd.shiro.web.api.model.response.a1base.ResponseResult;
 import com.yzd.shiro.web.api.utils.fastjsonExt.FastJsonUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,11 @@ public class ResponseBodyConfig implements ResponseBodyAdvice {
 
     @Override
     public boolean supports(MethodParameter methodParameter, Class aClass) {
+        //MockController:mock模拟类
+        if( methodParameter.getExecutable().getDeclaringClass().isAssignableFrom(MockController.class))
+        {
+            return false;
+        }
         return true;
     }
 
