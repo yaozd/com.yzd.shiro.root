@@ -18,4 +18,6 @@ public interface TbUserRoleMapper {
     List<TbUserRole> selectList(@Param("pojo") TbUserRole tableWhere, @Param("extendWhere") TbUserRoleWhere extendWhere, @Param("pageWhere") PageWhere pageWhere);
 
     Long selectCount(@Param("pojo") TbUserRole tableWhere, @Param("extendWhere") TbUserRoleWhere extendWhere);
+
+    int updateByUserIdSelective(TbUserRole record);
 }

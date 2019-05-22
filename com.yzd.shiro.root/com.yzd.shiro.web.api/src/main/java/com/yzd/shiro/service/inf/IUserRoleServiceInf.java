@@ -17,4 +17,8 @@ public interface IUserRoleServiceInf {
     List<TbUserRole> selectList(TbUserRole tableWhere, TbUserRoleWhere extendWhere, PageWhere pageWhere);
 
     Long selectCount(TbUserRole tableWhere, TbUserRoleWhere extendWhere);
+
+    int updateByUserIdSelective(TbUserRole record);
+
+    TbUserRole selectOne(TbUserRole tableWhere, TbUserRoleWhere extendWhere);
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public interface IUserServiceInf {
     int insertSelective(TbUser record);
 
-    TbUser selectByPrimaryKey(Integer id);
+    TbUser selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(TbUser record);
 

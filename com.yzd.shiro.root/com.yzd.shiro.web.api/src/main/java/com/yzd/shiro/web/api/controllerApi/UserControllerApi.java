@@ -3,6 +3,7 @@ package com.yzd.shiro.web.api.controllerApi;
 
 import com.yzd.shiro.db.entity.enumExt.TbPublicEnum;
 import com.yzd.shiro.db.entity.table.TbRole;
+import com.yzd.shiro.db.entity.table.TbRolePermission;
 import com.yzd.shiro.db.entity.table.TbUser;
 import com.yzd.shiro.db.entity.table.TbUserRole;
 import com.yzd.shiro.db.entity.where.PageWhere;
@@ -12,9 +13,13 @@ import com.yzd.shiro.db.entity.where.TbUserWhere;
 import com.yzd.shiro.service.inf.IRoleServiceInf;
 import com.yzd.shiro.service.inf.IUserRoleServiceInf;
 import com.yzd.shiro.service.inf.IUserServiceInf;
+import com.yzd.shiro.web.api.common.exceptionExt.CustomException;
 import com.yzd.shiro.web.api.model.request.user.AddEditUserForm;
 import com.yzd.shiro.web.api.model.request.user.GetListUserForm;
+import com.yzd.shiro.web.api.model.request.user.GetUserForm;
+import com.yzd.shiro.web.api.model.response.role.GetRoleVM;
 import com.yzd.shiro.web.api.model.response.user.GetListUserVM;
+import com.yzd.shiro.web.api.model.response.user.GetUserVM;
 import com.yzd.shiro.web.api.utils.optionalExt.OptionalUtil2;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -101,7 +107,7 @@ public class UserControllerApi {
             addEditUser4Insert(item,form);
             return "auth:add-ok";
         }
-        iUserServiceInf.updateByPrimaryKeySelective(item);
+        addEditUser4Update(item,form);
         return "auth:edit-ok";
     }
 
@@ -114,5 +120,46 @@ public class UserControllerApi {
         Long roleId=form.getRoleIds().get(0);
         TbUserRole item4TbUserRole= AddEditUserForm.toEntity4TbUserRole(userId,roleId);
         iUserRoleServiceInf.insertSelective(item4TbUserRole);
+    }
+    private void addEditUser4Update(TbUser item, AddEditUserForm form){
+        Long userId=item.getId();
+        iUserServiceInf.updateByPrimaryKeySelective(item);
+        TbUserRole item4TbUserRole2Delete=AddEditUserForm.toEntity4TbUserRole2Delete(userId);
+        if(form.getRoleIds()==null||form.getRoleIds().isEmpty()){
+            iUserRoleServiceInf.updateByUserIdSelective(item4TbUserRole2Delete);
+            return;
+        }
+        Long roleId=form.getRoleIds().get(0);
+        TbUserRole item4TbUserRole= AddEditUserForm.toEntity4TbUserRole(userId,roleId);
+        //先删除再插入
+        iUserRoleServiceInf.updateByUserIdSelective(item4TbUserRole2Delete);
+        iUserRoleServiceInf.insertSelective(item4TbUserRole);
+    }
+    @ApiOperation(value = "getUser-获得用户")
+    @GetMapping("getUser")
+    public GetUserVM getUser(Long id) {
+        TbUser item4User = iUserServiceInf.selectByPrimaryKey(id);
+        if (item4User == null) {
+            throw new CustomException("没有找到id=[" + id + "]的用户");
+        }
+        TbUserRole where= GetUserForm.toEntity(id);
+        TbUserRole item4UserRole=iUserRoleServiceInf.selectOne(where,null);
+        Long roleId=item4UserRole==null?0L:item4UserRole.getRoleId();
+        return GetUserVM.toVM(item4User,roleId);
+    }
+    @ApiOperation(value = "delUser-获得用户")
+    @PostMapping("delUser")
+    public String delUser(Long id){
+        TbUser item4User = iUserServiceInf.selectByPrimaryKey(id);
+        if (item4User == null) {
+            throw new CustomException("没有找到id=[" + id + "]的用户");
+        }
+        TbUser reocrd=new TbUser();
+        reocrd.setId(id);
+        reocrd.setGmtIsDel(TbPublicEnum.gmtIsDel.YES.CODE);
+        iUserServiceInf.updateByPrimaryKeySelective(reocrd);
+        TbUserRole item4TbUserRole2Delete=AddEditUserForm.toEntity4TbUserRole2Delete(id);
+        iUserRoleServiceInf.updateByUserIdSelective(item4TbUserRole2Delete);
+        return "user:del-ok";
     }
 }

@@ -49,6 +49,11 @@ public class AddEditUserForm {
         tbUserRole.setGmtCreateTime(new Date());
         tbUserRole.setGmtIsDel(TbPublicEnum.gmtIsDel.NO.CODE);
         return tbUserRole;
-
+    }
+    public static TbUserRole toEntity4TbUserRole2Delete(Long userId){
+        TbUserRole tbUserRole=new TbUserRole ();
+        tbUserRole.setUserId(userId);
+        tbUserRole.setGmtIsDel(TbPublicEnum.gmtIsDel.YES.CODE);
+        return tbUserRole;
     }
 }

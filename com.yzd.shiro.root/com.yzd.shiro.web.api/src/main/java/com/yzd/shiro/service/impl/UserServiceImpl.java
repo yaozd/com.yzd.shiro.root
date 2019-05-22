@@ -22,13 +22,13 @@ public class UserServiceImpl implements IUserServiceInf {
     }
 
     @Override
-    public TbUser selectByPrimaryKey(Integer id) {
-        return null;
+    public TbUser selectByPrimaryKey(Long id) {
+        return tbUserDao.selectByPrimaryKey(id);
     }
 
     @Override
     public int updateByPrimaryKeySelective(TbUser record) {
-        return 0;
+        return tbUserDao.updateByPrimaryKeySelective(record);
     }
 
     @Override

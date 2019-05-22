@@ -40,4 +40,14 @@ public class UserRoleServiceImpl implements IUserRoleServiceInf {
     public Long selectCount(TbUserRole tableWhere, TbUserRoleWhere extendWhere) {
         return tbUserRoleDao.selectCount(tableWhere, extendWhere);
     }
+
+    @Override
+    public int updateByUserIdSelective(TbUserRole record) {
+        return tbUserRoleDao.updateByUserIdSelective(record);
+    }
+
+    @Override
+    public TbUserRole selectOne(TbUserRole tableWhere, TbUserRoleWhere extendWhere) {
+        return tbUserRoleDao.selectOne(tableWhere, extendWhere);
+    }
 }

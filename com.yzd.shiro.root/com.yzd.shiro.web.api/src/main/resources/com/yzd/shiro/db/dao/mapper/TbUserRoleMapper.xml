@@ -82,12 +82,12 @@
   <!--自定义脚本////////////////////////////////////////////////////////////////////////////////////////////////-->
   <sql id="Query_Where_Clause" >
     <if test="pojo != null" >
-      <if test="pojo.id != null"> id = #{pojo.id}, </if>
-      <if test="pojo.userId != null"> user_id = #{pojo.userId}, </if>
-      <if test="pojo.roleId != null"> role_id = #{pojo.roleId}, </if>
-      <if test="pojo.version != null"> version = #{pojo.version}, </if>
-      <if test="pojo.gmtCreateTime != null"> gmt_create_time = #{pojo.gmtCreateTime}, </if>
-      <if test="pojo.gmtIsDel != null"> gmt_is_del = #{pojo.gmtIsDel} </if>
+      <if test="pojo.id != null"> AND id = #{pojo.id} </if>
+      <if test="pojo.userId != null"> AND user_id = #{pojo.userId} </if>
+      <if test="pojo.roleId != null"> AND role_id = #{pojo.roleId} </if>
+      <if test="pojo.version != null"> AND version = #{pojo.version} </if>
+      <if test="pojo.gmtCreateTime != null"> AND gmt_create_time = #{pojo.gmtCreateTime} </if>
+      <if test="pojo.gmtIsDel != null"> AND gmt_is_del = #{pojo.gmtIsDel} </if>
     </if>
   </sql>
   <sql id="Query_Where_ClauseForPageWhere">
@@ -121,4 +121,22 @@
     FROM tb_user_role
     <include refid="Query_Where_ClauseForExtendWhere" />
   </select>
+  <update id="updateByUserIdSelective" parameterType="com.yzd.shiro.db.entity.table.TbUserRole">
+    update tb_user_role
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreateTime != null">
+        gmt_create_time = #{gmtCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtIsDel != null">
+        gmt_is_del = #{gmtIsDel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT} and gmt_is_del=0
+  </update>
 </mapper>

@@ -39,4 +39,11 @@ public class TbUserRoleDao {
     public Long selectCount(TbUserRole tableWhere, TbUserRoleWhere extendWhere) {
         return tbUserRoleMapper.selectCount(tableWhere, extendWhere);
     }
+    public int updateByUserIdSelective(TbUserRole record){
+        return tbUserRoleMapper.updateByUserIdSelective(record);
+    }
+    public TbUserRole selectOne(TbUserRole tableWhere, TbUserRoleWhere extendWhere){
+        List<TbUserRole> itemList=selectList(tableWhere,extendWhere,PageWhere.newPage4One());
+        return itemList.stream().findFirst().orElseGet(()->null);
+    }
 }

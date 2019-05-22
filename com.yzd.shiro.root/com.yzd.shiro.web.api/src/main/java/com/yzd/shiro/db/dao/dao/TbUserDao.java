@@ -18,12 +18,12 @@ public class TbUserDao  {
         return tbUserMapper.insertSelective(record);
     }
 
-    public TbUser selectByPrimaryKey(Integer id) {
-        return null;
+    public TbUser selectByPrimaryKey(Long id) {
+        return tbUserMapper.selectByPrimaryKey(id);
     }
 
     public int updateByPrimaryKeySelective(TbUser record) {
-        return 0;
+        return tbUserMapper.updateByPrimaryKeySelective(record);
     }
 
     public List<TbUser> selectList(TbUser tableWhere, TbUserWhere extendWhere,PageWhere pageWhere) {

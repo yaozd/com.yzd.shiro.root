@@ -3,7 +3,7 @@
  */
 $(function () {
     $("#addUserBtn").click(function () {
-        ViewUtil.toShowAddEditUser("开通角色");
+        ViewUtil.toShowAddEditUser("开通用户");
         RequestUtil.initUserForm4Add();
     });
 });
@@ -36,14 +36,38 @@ layui.use(['form', 'laydate', 'table'], function () {
     });
 });
 //
+var JobStatusEnum = {
+    YES: {name: "在职", value: 0},
+    NO: {name: "离职", value: 1},
+};
+//
 var ViewUtil = {
+    toView: function (arr) {
+        var temp = [];
+        for (var i = 0; i < arr.length; i++) {
+            var item = arr[i];
+            item.jobName = ViewUtil.toJobName(item.jobStatus);
+            temp.push(item);
+        }
+        return temp;
+    },
+    toJobName: function (jobStatus) {
+        //枚举遍历
+        for (var prop in JobStatusEnum) {
+            var item = JobStatusEnum[prop];
+            if (item.value == jobStatus) {
+                return item.name;
+            }
+        }
+        return "";
+    },
     toAlertSuccess: function (title) {
         //弹出层:无关闭按钮
         layer.alert(title, {closeBtn: 0}, function () {
             layer.closeAll();
             //加载load方法
             //window.location.reload();
-            //ViewUtil.toShowRoleListLi();
+            RequestUtil.initDataListFun();
         });
     },
     toShowAddEditUser: function (title) {
@@ -65,13 +89,24 @@ var ViewUtil = {
             }
         });
     },
-    toTreeData4AddUser:function (itemList) {
+    toTreeData4AddUser: function (itemList) {
         console.log(itemList);
         var treeData = [];
         for (var i = 0, il = itemList.length; i < il; i++) {
             var item = itemList[i];
             item.name = item.roleName;
             item.open = true;
+            treeData.push(item);
+        }
+        return treeData;
+    },
+    toTreeData4UpdateUser: function (itemList, roleId) {
+        var treeData = [];
+        for (var i = 0, il = itemList.length; i < il; i++) {
+            var item = itemList[i];
+            item.name = item.roleName;
+            item.open = true;
+            item.checked = roleId == item.id;
             treeData.push(item);
         }
         return treeData;
@@ -100,6 +135,23 @@ var ViewUtil = {
         }
         //var permIds= nodeIds.join(",");
         return nodeIds;
+    },
+    toFormView: function (item) {
+        //表单初始赋值
+        var options = {jsonValue: item, isDebug: false};
+        $("#userForm").initForm(options);
+    },
+    toDelUserView:function (id,name) {
+        console.log("===删除id："+id);
+        if(null!=id){
+            layer.confirm('您确定要删除['+name+']角色吗？', {
+                btn: ['确认','返回'] //按钮
+            }, function(){
+                RequestUtil.delUserFun(id);
+            }, function(){
+                layer.closeAll();
+            });
+        }
     }
 };
 //
@@ -112,8 +164,10 @@ var RequestUtil = {
             console.log(response);
             var result = response.data;
             if (result.code == 200) {
-                vm.reports = result.data;
-                console.log(result.data);
+                //转为显示数据
+                var viewData = ViewUtil.toView(result.data);
+                vm.reports = viewData;
+                console.log(viewData);
                 return;
             }
             layer.alert(result.data);
@@ -134,7 +188,35 @@ var RequestUtil = {
                 }
             });
     },
-    userSubmitFun:function () {
+    initUserForm4Update: function (id) {
+        axios.all([RequestUtil.getListRoleFun4Update(), RequestUtil.getUserFun4Update(id)])
+            .then(axios.spread(function (response4ListRole, response4User) {
+                var result4ListRole = response4ListRole.data;
+                var result4User = response4User.data;
+                console.log(result4ListRole);
+                console.log(result4User);
+                if (result4ListRole.code != 200) {
+                    alert("getListRoleFun4Update请求失败：" + result4ListRole.data);
+                    return;
+                }
+                if (result4User.code != 200) {
+                    alert("getUserFun4Update请求失败：" + result4User.data);
+                    return;
+                }
+                var item4User = result4User.data;
+                ViewUtil.toFormView(item4User);
+                var treeData = ViewUtil.toTreeData4UpdateUser(result4ListRole.data, item4User.roleId);
+                ViewUtil.initZTree(treeData);
+                console.log('两个请求都完成了')
+            }));
+    },
+    getListRoleFun4Update: function () {
+        return instance.get("/api/role/getListRole");
+    },
+    getUserFun4Update: function (id) {
+        return instance.get("/api/user/getUser?id=" + id);
+    },
+    userSubmitFun: function () {
         var params = $("#userForm").serializeJson();
         params.roleIds = ViewUtil.getRoleId();
         instance.post('/api/user/addEditUser', params).then(function (response) {
@@ -145,9 +227,25 @@ var RequestUtil = {
             }
             layer.alert(result.data);
         });
+    },
+    delUserFun:function (id) {
+        instance.post('/api/user/delUser?id='+id)
+            .then(function (response) {
+                var result=response.data;
+                if(result.code==200){
+                    ViewUtil.toAlertSuccess("删除成功！");
+                    return;
+                }
+                layer.closeAll();
+                alert(result.data);
+            });
     }
 };
 //VUE 放在代码的最后面
+Vue.component("component4job", {
+    template: "#jobTpl",
+    props: ["data"]
+})
 var vm = new Vue({
     el: "#tbody4RoleList",
     data: {reports: []},
@@ -155,13 +253,13 @@ var vm = new Vue({
         RequestUtil.initDataListFun();
     },
     methods: {
-        updateRoleVUE: function (val) {
+        updateVUE: function (val) {
             alert(val);
-            ViewUtil.toShowUpdateRoleLi();
-            RequestUtil.initRoleForm4Update(val);
+            ViewUtil.toShowAddEditUser("编辑用户");
+            RequestUtil.initUserForm4Update(val);
         },
         delVUE: function (id, name) {
-            ViewUtil.toDelRoleView(id, name);
+            ViewUtil.toDelUserView(id, name);
         }
     }
 });

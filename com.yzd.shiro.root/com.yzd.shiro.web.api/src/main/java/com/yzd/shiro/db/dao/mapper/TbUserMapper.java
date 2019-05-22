@@ -10,7 +10,7 @@ import java.util.List;
 public interface TbUserMapper {
     int insertSelective(TbUser record);
 
-    TbUser selectByPrimaryKey(Integer id);
+    TbUser selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(TbUser record);
     //--==================================================自定义脚本==================================================--//
