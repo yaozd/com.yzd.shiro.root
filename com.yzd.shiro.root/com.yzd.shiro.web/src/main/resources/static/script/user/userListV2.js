@@ -8,11 +8,12 @@ $(function () {
     });
 });
 //搜索框
-layui.use(['form', 'laydate', 'table'], function () {
+layui.use(['form', 'laydate', 'table','laypage'], function () {
     var form = layui.form
         , layer = layui.layer
         , laydate = layui.laydate
-        , table = layui.table;
+        , table = layui.table
+        ,laypage = layui.laypage;
     //日期
     laydate.render({
         elem: '#insertTimeStart'
@@ -34,7 +35,17 @@ layui.use(['form', 'laydate', 'table'], function () {
         RequestUtil.userSubmitFun();
         return false;
     });
+    //完整功能
+    laypage.render({
+        elem: 'demo7'
+        ,count: 100
+        ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+        ,jump: function(obj){
+            console.log(obj)
+        }
+    });
 });
+
 //
 var JobStatusEnum = {
     YES: {name: "在职", value: 0},
@@ -168,6 +179,18 @@ var RequestUtil = {
                 var viewData = ViewUtil.toView(result.data);
                 vm.reports = viewData;
                 console.log(viewData);
+                //完整功能
+                layui.use(['laypage'], function(){
+                    var laypage = layui.laypage
+                    laypage.render({
+                        elem: 'demo7'
+                        ,count: 3
+                        ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        ,jump: function(obj){
+                            console.log(obj)
+                        }
+                    });
+                });
                 return;
             }
             layer.alert(result.data);

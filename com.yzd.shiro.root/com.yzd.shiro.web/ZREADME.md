@@ -29,6 +29,7 @@
 - [admin开发调试-页面](https://www.layui.com/demo/admin.html)
 - []()
 ### 2.1.Layui-问题处理参考
+- [LayUI 完美兼容Vue.js](https://www.cnblogs.com/itsharehome/p/8127215.html)
 - [layer弹层遮罩挡住窗体解决](https://blog.csdn.net/q646926099/article/details/78797091)
 - [重置表单的三种方法](https://blog.csdn.net/qq_27596179/article/details/80883201)
     ```
