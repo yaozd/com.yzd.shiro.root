@@ -1,5 +1,7 @@
 package com.yzd.shiro.web.api.config.shiro;
 
+import com.yzd.shiro.web.api.utils.fastjsonExt.FastJsonUtil;
+import com.yzd.shiro.web.api.utils.jwtExt.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -30,6 +32,10 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        String token = principalCollection.toString();
+        CurrentToken currentToken=JwtUtil.verifyToken(token,CurrentToken.class);
+        // 查询用户角色
+        //
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         // 添加角色
         simpleAuthorizationInfo.addRole("admin");
@@ -48,6 +54,10 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String token = (String) authenticationToken.getCredentials();
         log.info("token="+token);
+        CurrentToken currentToken=JwtUtil.verifyToken(token,CurrentToken.class);
+        log.info("CURRENT TOKEN:"+FastJsonUtil.serialize(currentToken));
+        // 查询用户是否存在
+
         return new SimpleAuthenticationInfo(token, token, "userRealm");
         //throw new AuthenticationException("Token已过期(Token expired or incorrect.)");
     }

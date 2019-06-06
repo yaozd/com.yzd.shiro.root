@@ -3,8 +3,10 @@ package com.yzd.shiro.web.api.controllerApi;
 import com.yzd.shiro.db.entity.table.TbUser;
 import com.yzd.shiro.service.inf.IUserServiceInf;
 import com.yzd.shiro.web.api.common.exceptionExt.CustomException;
+import com.yzd.shiro.web.api.config.shiro.CurrentToken;
 import com.yzd.shiro.web.api.config.shiro.JwtToken;
 import com.yzd.shiro.web.api.model.request.account.LoginForm;
+import com.yzd.shiro.web.api.utils.jwtExt.JwtUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -35,7 +37,8 @@ public class AccountControllerApi {
            throw new CustomException("用户名或密码不正确");
         }
         //设置TOKEN
-        String token=form.getName();
+        CurrentToken currentToken=LoginForm.toCurrentToken(item);
+        String token=JwtUtil.createToken(currentToken);
         response.setHeader("Authorization", token);
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
         //

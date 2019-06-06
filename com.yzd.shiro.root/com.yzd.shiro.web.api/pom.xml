@@ -85,6 +85,17 @@
             <artifactId>commons-io</artifactId>
         </dependency>
         <!--========================================================-->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+        </dependency>
+        <!--========================================================-->
+        <dependency>
+            <groupId>org.databene</groupId>
+            <artifactId>contiperf</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--========================================================-->
         <!-- devtools 热部署,必须在DEBUG模式下才生效 -->
         <!-- 程序打包时，不会打包devtools进去-->
         <dependency>
