@@ -69,18 +69,20 @@ public class JwtUtil {
      * @param token
      * @return
      */
-    public static <T> T verifyToken(String token, Class<T> clz) {
+    public static String verifyToken(String token) {
         if (StringUtils.isBlank(token)) {
             throw new CustomJwtException("验证token失败：token is null");
         }
         try {
             DecodedJWT jwt = jwtVerifier.verify(token);
             Claim userJsonClaim = jwt.getClaim(USER_JSON);
-            String userJson = userJsonClaim.asString();
-            return FastJsonUtil.deserialize(userJson, clz);
+            return userJsonClaim.asString();
         } catch (JWTVerificationException ex) {
             throw new CustomJwtException("验证token失败："+ex.getMessage());
         }
+    }
+    public static <T> T jsonToUser(String json,Class<T> clz){
+        return FastJsonUtil.deserialize(json, clz);
     }
 
     /***

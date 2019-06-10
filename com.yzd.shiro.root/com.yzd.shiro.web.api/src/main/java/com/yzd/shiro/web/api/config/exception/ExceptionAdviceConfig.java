@@ -3,6 +3,7 @@ package com.yzd.shiro.web.api.config.exception;
 import com.yzd.shiro.web.api.common.exceptionExt.CustomException;
 import com.yzd.shiro.web.api.common.exceptionExt.ExceptionEnum;
 import com.yzd.shiro.web.api.model.response.a1base.ResponseResult;
+import com.yzd.shiro.web.api.utils.jwtExt.CustomJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.authz.UnauthenticatedException;
@@ -17,14 +18,23 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 异常控制处理器
+ *
  * @author Wang926454
  * @date 2018/8/30 14:02
  */
 @Slf4j
 @RestControllerAdvice
 public class ExceptionAdviceConfig {
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(CustomJwtException.class)
+    public ResponseResult handle401(CustomJwtException e) {
+        return ResponseResult.fail(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):" + e.getMessage());
+    }
+
     /**
      * 捕捉所有Shiro异常
+     *
      * @param e
      * @return
      */
@@ -33,9 +43,11 @@ public class ExceptionAdviceConfig {
     public ResponseResult handle401(ShiroException e) {
         return ResponseResult.fail(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):" + e.getMessage());
     }
+
     /**
      * 单独捕捉Shiro(UnauthorizedException)异常
      * 该异常为访问有权限管控的请求而该用户没有所需权限所抛出的异常
+     *
      * @param e
      * @return
      */
@@ -48,6 +60,7 @@ public class ExceptionAdviceConfig {
     /**
      * 单独捕捉Shiro(UnauthenticatedException)异常
      * 该异常为以游客身份访问有权限管控的请求无法对匿名主体进行授权，而授权失败所抛出的异常
+     *
      * @param e
      * @return
      */
@@ -56,8 +69,10 @@ public class ExceptionAdviceConfig {
     public ResponseResult handle401(UnauthenticatedException e) {
         return ResponseResult.fail(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):当前Subject是匿名Subject，请先登录(This subject is anonymous.)");
     }
+
     /**
      * 捕捉404异常
+     *
      * @return
      */
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -65,8 +80,10 @@ public class ExceptionAdviceConfig {
     public ResponseResult handle(NoHandlerFoundException e) {
         return ResponseResult.fail(HttpStatus.NOT_FOUND.value(), e.getMessage());
     }
+
     /**
      * 捕捉其他所有异常
+     *
      * @param request
      * @param ex
      * @return
@@ -74,12 +91,13 @@ public class ExceptionAdviceConfig {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ResponseResult globalException(HttpServletRequest request, Throwable ex) {
-        log.error("内部未知异常",ex);
+        log.error("内部未知异常", ex);
         return ResponseResult.fail(this.getStatus(request).value(), ex.toString() + ": " + ex.getMessage());
     }
 
     /**
      * 获取状态码
+     *
      * @param request
      * @return
      */
@@ -94,6 +112,7 @@ public class ExceptionAdviceConfig {
     /**
      * 自定义异常
      * 因为自定义异常需要做业务逻辑处理，所以使用HttpStatus.OK
+     *
      * @param ex
      * @return
      */

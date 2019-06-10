@@ -22,7 +22,7 @@ public class JwtUtilTest {
 
     @Test
     public void verifyToken() {
-        String token=JwtUtil.verifyToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ5emQiLCJleHAiOjE1NTk4MDM5OTIsImlhdCI6MTU1OTgwMzY5MiwiVVNFUl9KU09OIjoiXCIxXCIifQ.HNJsnG87suXbqbHZJ4ZBxh0G2UAJiFLjedRIr9uPXFQ",String.class);
+        String token=JwtUtil.verifyToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ5emQiLCJleHAiOjE1NTk4MDM5OTIsImlhdCI6MTU1OTgwMzY5MiwiVVNFUl9KU09OIjoiXCIxXCIifQ.HNJsnG87suXbqbHZJ4ZBxh0G2UAJiFLjedRIr9uPXFQ");
         log.info(token);
     }
 

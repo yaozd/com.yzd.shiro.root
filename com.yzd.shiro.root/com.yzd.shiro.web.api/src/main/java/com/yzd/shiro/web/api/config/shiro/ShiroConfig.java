@@ -5,6 +5,7 @@ import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.authc.AnonymousFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
@@ -75,6 +76,7 @@ public class ShiroConfig {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
         // 添加自己的过滤器取名为jwt
         Map<String, Filter> filterMap = new HashMap<>(16);
+        filterMap.put("anon", new AnonymousFilter());
         filterMap.put("jwt", new JwtFilter());
         factoryBean.setFilters(filterMap);
         factoryBean.setSecurityManager(securityManager);
@@ -89,7 +91,9 @@ public class ShiroConfig {
         // 公开接口
         // filterChainDefinitionMap.put("/api/**", "anon");
         // 所有请求通过我们自己的JWTFilter
-        filterChainDefinitionMap.put("/**", "jwt");
+        filterChainDefinitionMap.put("/favicon.ico", "anon");
+        filterChainDefinitionMap.put("/api/account/*", "anon");
+        filterChainDefinitionMap.put("/api/**", "jwt");
         factoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return factoryBean;
     }
