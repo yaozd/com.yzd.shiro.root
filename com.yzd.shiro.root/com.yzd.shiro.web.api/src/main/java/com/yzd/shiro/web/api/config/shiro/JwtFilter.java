@@ -25,17 +25,6 @@ import java.io.PrintWriter;
 public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        //检测Header里面是否包含Authorization字段，有就进行Token登录认证授权
-        //如果不包含Authorization信息，则是按照匿名用户身份访问
-        if (this.isLoginAttempt(request, response)) {
-            try {
-                this.executeLogin(request, response);
-            } catch (Exception ex) {
-                this.response401(response, ex.getMessage());
-                return true;
-            }
-            return true;
-        }
         return true;
     }
 
@@ -74,6 +63,17 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
             httpServletResponse.setStatus(HttpStatus.OK.value());
             return false;
+        }
+        if (this.isLoginAttempt(request, response)) {
+            try {
+                this.executeLogin(request, response);
+            }catch (RuntimeException ex) {
+                this.response401(response, ex.getMessage());
+                return false;
+            } catch (Exception ex) {
+                this.response401(response, ex.getMessage());
+                return false;
+            }
         }
         return super.preHandle(request, response);
     }

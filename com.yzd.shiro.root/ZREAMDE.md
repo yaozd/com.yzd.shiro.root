@@ -14,6 +14,7 @@
 ### -Shiro调用流程
 ```
  请求 -->
+ JwtFilter(preHandle)--> 
  JwtFilter(isAccessAllowed)--> 
  JwtFilter(executeLogin)--> 
  UserRealm(supports)--> 
@@ -55,4 +56,4 @@ Remember Me：记住我，这个是非常常见的功能，即一次登录后，
 @RequiresUser
 @RequiresGuest
 ```
-    
+### -Shiro框架中有三个核心概念：Subject ，SecurityManager和Realms    

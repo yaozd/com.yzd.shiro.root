@@ -9,3 +9,8 @@
     3.功能（api）(功能就是按钮，目前暂时取消按钮选项-2019-05-14)
     4.按钮
     ```
+ ### 2.@ControllerAdvice全局异常处理问题分析 
+```
+@ControllerAdvice 处理异常也有一定的 局限性。只有进入 Controller 层的错误，才会由 @ControllerAdvice 处理。
+Filter中的异常是不被@ControllerAdvice拦截的，需要在Filter中直接处理
+```

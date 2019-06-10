@@ -2,11 +2,15 @@ package com.yzd.shiro.web.api.config.shiro;
 
 import com.yzd.shiro.service.inf.IShiroServiceInf;
 import com.yzd.shiro.web.api.utils.fastjsonExt.FastJsonUtil;
+import com.yzd.shiro.web.api.utils.jwtExt.CustomJwtException;
 import com.yzd.shiro.web.api.utils.jwtExt.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.pam.UnsupportedTokenException;
+import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -38,18 +42,24 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String token = principalCollection.toString();
-        CurrentToken currentToken = JwtUtil.jsonToUser(token, CurrentToken.class);
-        // 查询用户角色
-        Set<String> itemSet4Permission = iShiroServiceInf.findPermissionByUserId(currentToken.getId());
-        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        simpleAuthorizationInfo.setStringPermissions(itemSet4Permission);
-        // 添加角色
-        //simpleAuthorizationInfo.addRole("admin");
-        // 添加权限--超级管理员--访问所有
-        //simpleAuthorizationInfo.addStringPermission("*");
-        // 添加权限--具体权限
-        //simpleAuthorizationInfo.addStringPermission("user:online");
-        return simpleAuthorizationInfo;
+        try{
+            CurrentToken currentToken = JwtUtil.jsonToUser(token, CurrentToken.class);
+            // 查询用户角色
+            Set<String> itemSet4Permission = iShiroServiceInf.findPermissionByUserId(currentToken.getId());
+            SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+            simpleAuthorizationInfo.setStringPermissions(itemSet4Permission);
+            // 添加角色
+            //simpleAuthorizationInfo.addRole("admin");
+            // 添加权限--超级管理员--访问所有
+            //simpleAuthorizationInfo.addStringPermission("*");
+            // 添加权限--具体权限
+            //simpleAuthorizationInfo.addStringPermission("user:online");
+            return simpleAuthorizationInfo;
+        }
+        catch (Exception ex){
+            //此处的异常只能使用AuthenticationException的子类或本身，不能使用自定义异常类型
+            throw new AuthorizationException("[doGetAuthorizationInfo]:"+ex.getMessage());
+        }
     }
 
     /**
@@ -60,11 +70,16 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) {
         String token4json = (String) authenticationToken.getCredentials();
         log.info("token=" + token4json);
-        CurrentToken currentToken = JwtUtil.jsonToUser(token4json, CurrentToken.class);
-        log.info("CURRENT TOKEN:" + FastJsonUtil.serialize(currentToken));
-        // 查询用户是否存在
-        return new SimpleAuthenticationInfo(token4json, token4json, "userRealm");
-        //throw new AuthenticationException("Token已过期(Token expired or incorrect.)");
+        try{
+            CurrentToken currentToken = JwtUtil.jsonToUser(token4json, CurrentToken.class);
+            log.info("CURRENT TOKEN:" + FastJsonUtil.serialize(currentToken));
+            // 查询用户是否存在
+            return new SimpleAuthenticationInfo(token4json, token4json, "userRealm");
+            //throw new AuthenticationException("Token已过期(Token expired or incorrect.)");
+        }catch (Exception ex){
+            //此处的异常只能使用AuthenticationException的子类或本身，不能使用自定义异常类型
+            throw new AuthenticationException("[doGetAuthenticationInfo]:"+ex.getMessage());
+        }
     }
 }
 

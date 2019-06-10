@@ -3,7 +3,6 @@ package com.yzd.shiro.web.api.controllerApi;
 
 import com.yzd.shiro.db.entity.enumExt.TbPublicEnum;
 import com.yzd.shiro.db.entity.table.TbRole;
-import com.yzd.shiro.db.entity.table.TbRolePermission;
 import com.yzd.shiro.db.entity.table.TbUser;
 import com.yzd.shiro.db.entity.table.TbUserRole;
 import com.yzd.shiro.db.entity.where.PageWhere;
@@ -14,23 +13,25 @@ import com.yzd.shiro.service.inf.IRoleServiceInf;
 import com.yzd.shiro.service.inf.IUserRoleServiceInf;
 import com.yzd.shiro.service.inf.IUserServiceInf;
 import com.yzd.shiro.web.api.common.exceptionExt.CustomException;
+import com.yzd.shiro.web.api.config.shiro.CurrentToken;
 import com.yzd.shiro.web.api.model.request.user.AddEditUserForm;
 import com.yzd.shiro.web.api.model.request.user.GetListUserForm;
 import com.yzd.shiro.web.api.model.request.user.GetUserForm;
-import com.yzd.shiro.web.api.model.response.role.GetRoleVM;
 import com.yzd.shiro.web.api.model.response.user.GetListUserVM;
 import com.yzd.shiro.web.api.model.response.user.GetUserVM;
+import com.yzd.shiro.web.api.utils.jwtExt.JwtUtil;
 import com.yzd.shiro.web.api.utils.optionalExt.OptionalUtil2;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -58,6 +59,16 @@ public class UserControllerApi {
         return "user:create";
     }
 
+    @ApiOperation(value = "getCurrentUser-获得当前用户")
+    @GetMapping("getCurrentUser")
+    @RequiresAuthentication //登录权限
+    public CurrentToken getCurrentUser() {
+        Subject sub = SecurityUtils.getSubject();
+        String token4json = (String) sub.getPrincipal();
+        CurrentToken token=JwtUtil.jsonToUser(token4json,CurrentToken.class);
+        return token;
+    }
+
     @Autowired
     IUserServiceInf iUserServiceInf;
     @Autowired
@@ -74,7 +85,7 @@ public class UserControllerApi {
         //
         List<GetListUserVM> itemList4GetListUerVM = new ArrayList<>();
         itemList4TbUser.forEach(item -> itemList4GetListUerVM.add(GetListUserVM.toVM(item)));
-        if(itemList4GetListUerVM.isEmpty()){
+        if (itemList4GetListUerVM.isEmpty()) {
             return itemList4GetListUerVM;
         }
         //
@@ -85,16 +96,16 @@ public class UserControllerApi {
         extendWhere4UserRole.setUserId4InList(OptionalUtil2.emptyToNull(where4UserId));
         List<TbUserRole> itemList4TbUserRole = iUserRoleServiceInf.selectList(where4UserRole, extendWhere4UserRole, PageWhere.newPage(0, 50));
         //
-        itemList4GetListUerVM.forEach(item->GetListUserVM.toSetRoleId(item,itemList4TbUserRole));
+        itemList4GetListUerVM.forEach(item -> GetListUserVM.toSetRoleId(item, itemList4TbUserRole));
         //
-        List<Long>where4RoleId=itemList4TbUserRole.stream().map(TbUserRole::getRoleId).distinct().collect(Collectors.toList());
-        TbRole where4TbRole=new TbRole();
+        List<Long> where4RoleId = itemList4TbUserRole.stream().map(TbUserRole::getRoleId).distinct().collect(Collectors.toList());
+        TbRole where4TbRole = new TbRole();
         where4TbRole.setGmtIsDel(TbPublicEnum.gmtIsDel.NO.CODE);
-        TbRoleWhere extendWhere4Role=new TbRoleWhere();
+        TbRoleWhere extendWhere4Role = new TbRoleWhere();
         extendWhere4Role.setRoleId4InList(OptionalUtil2.emptyToNull(where4RoleId));
-        List<TbRole> itemList4TbRole=iRoleServiceInf.selectList(where4TbRole,extendWhere4Role,PageWhere.newPage(0,50));
+        List<TbRole> itemList4TbRole = iRoleServiceInf.selectList(where4TbRole, extendWhere4Role, PageWhere.newPage(0, 50));
         //
-        itemList4GetListUerVM.forEach(item->GetListUserVM.toSetRoleName(item,itemList4TbRole));
+        itemList4GetListUerVM.forEach(item -> GetListUserVM.toSetRoleName(item, itemList4TbRole));
         return itemList4GetListUerVM;
     }
 
@@ -104,37 +115,39 @@ public class UserControllerApi {
         //
         TbUser item = AddEditUserForm.toEntity(form);
         if (item.getId() == 0) {
-            addEditUser4Insert(item,form);
+            addEditUser4Insert(item, form);
             return "auth:add-ok";
         }
-        addEditUser4Update(item,form);
+        addEditUser4Update(item, form);
         return "auth:edit-ok";
     }
 
     private void addEditUser4Insert(TbUser item, AddEditUserForm form) {
         iUserServiceInf.insertSelective(item);
-        if(form.getRoleIds()==null||form.getRoleIds().isEmpty()){
+        if (form.getRoleIds() == null || form.getRoleIds().isEmpty()) {
             return;
         }
-        Long userId=item.getId();
-        Long roleId=form.getRoleIds().get(0);
-        TbUserRole item4TbUserRole= AddEditUserForm.toEntity4TbUserRole(userId,roleId);
+        Long userId = item.getId();
+        Long roleId = form.getRoleIds().get(0);
+        TbUserRole item4TbUserRole = AddEditUserForm.toEntity4TbUserRole(userId, roleId);
         iUserRoleServiceInf.insertSelective(item4TbUserRole);
     }
-    private void addEditUser4Update(TbUser item, AddEditUserForm form){
-        Long userId=item.getId();
+
+    private void addEditUser4Update(TbUser item, AddEditUserForm form) {
+        Long userId = item.getId();
         iUserServiceInf.updateByPrimaryKeySelective(item);
-        TbUserRole item4TbUserRole2Delete=AddEditUserForm.toEntity4TbUserRole2Delete(userId);
-        if(form.getRoleIds()==null||form.getRoleIds().isEmpty()){
+        TbUserRole item4TbUserRole2Delete = AddEditUserForm.toEntity4TbUserRole2Delete(userId);
+        if (form.getRoleIds() == null || form.getRoleIds().isEmpty()) {
             iUserRoleServiceInf.updateByUserIdSelective(item4TbUserRole2Delete);
             return;
         }
-        Long roleId=form.getRoleIds().get(0);
-        TbUserRole item4TbUserRole= AddEditUserForm.toEntity4TbUserRole(userId,roleId);
+        Long roleId = form.getRoleIds().get(0);
+        TbUserRole item4TbUserRole = AddEditUserForm.toEntity4TbUserRole(userId, roleId);
         //先删除再插入
         iUserRoleServiceInf.updateByUserIdSelective(item4TbUserRole2Delete);
         iUserRoleServiceInf.insertSelective(item4TbUserRole);
     }
+
     @ApiOperation(value = "getUser-获得用户")
     @GetMapping("getUser")
     public GetUserVM getUser(Long id) {
@@ -142,23 +155,24 @@ public class UserControllerApi {
         if (item4User == null) {
             throw new CustomException("没有找到id=[" + id + "]的用户");
         }
-        TbUserRole where= GetUserForm.toEntity(id);
-        TbUserRole item4UserRole=iUserRoleServiceInf.selectOne(where,null);
-        Long roleId=item4UserRole==null?0L:item4UserRole.getRoleId();
-        return GetUserVM.toVM(item4User,roleId);
+        TbUserRole where = GetUserForm.toEntity(id);
+        TbUserRole item4UserRole = iUserRoleServiceInf.selectOne(where, null);
+        Long roleId = item4UserRole == null ? 0L : item4UserRole.getRoleId();
+        return GetUserVM.toVM(item4User, roleId);
     }
-    @ApiOperation(value = "delUser-获得用户")
+
+    @ApiOperation(value = "delUser-删除用户")
     @PostMapping("delUser")
-    public String delUser(Long id){
+    public String delUser(Long id) {
         TbUser item4User = iUserServiceInf.selectByPrimaryKey(id);
         if (item4User == null) {
             throw new CustomException("没有找到id=[" + id + "]的用户");
         }
-        TbUser reocrd=new TbUser();
+        TbUser reocrd = new TbUser();
         reocrd.setId(id);
         reocrd.setGmtIsDel(TbPublicEnum.gmtIsDel.YES.CODE);
         iUserServiceInf.updateByPrimaryKeySelective(reocrd);
-        TbUserRole item4TbUserRole2Delete=AddEditUserForm.toEntity4TbUserRole2Delete(id);
+        TbUserRole item4TbUserRole2Delete = AddEditUserForm.toEntity4TbUserRole2Delete(id);
         iUserRoleServiceInf.updateByUserIdSelective(item4TbUserRole2Delete);
         return "user:del-ok";
     }
