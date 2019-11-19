@@ -1,3 +1,5 @@
+# Shiro配置不起作用问题
+> 可能是由于idea 没有拦截上。可以通过打日志的方式验证
 # Shiro权限管理
 ### - 参考文章
 - [Shiro + JWT + SpringBoot + MySQL + Redis(Jedis)实现无状态鉴权机制(Restful风格API)](https://blog.csdn.net/wang926454/article/details/82971291)

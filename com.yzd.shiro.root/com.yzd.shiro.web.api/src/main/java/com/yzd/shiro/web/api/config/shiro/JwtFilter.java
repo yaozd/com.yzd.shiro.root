@@ -53,6 +53,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+        //Shiro配置不启作用问题:可能是由于idea 没有拦截上。可以通过打日志的方式验证
+        log.debug("Shiro配置是否启作用，通过打日志的方式验证：preHandle");
         HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
         HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
         httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
